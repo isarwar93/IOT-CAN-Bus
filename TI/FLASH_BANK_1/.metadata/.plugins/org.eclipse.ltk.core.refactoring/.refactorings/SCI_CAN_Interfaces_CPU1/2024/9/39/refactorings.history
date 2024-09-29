@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;SCI_CAN_Interfaces_CPU1/headers/config&apos; to &apos;config.h&apos;" description="Rename resource &apos;config&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="headers/config" name="config.h" stamp="1727529526429" updateReferences="true"/>
-</session>

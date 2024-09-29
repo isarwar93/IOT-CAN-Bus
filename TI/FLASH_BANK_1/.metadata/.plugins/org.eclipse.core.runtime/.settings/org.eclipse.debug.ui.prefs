@@ -1,8 +1,0 @@
-Console.highWaterMark=88000
-StringVariablePreferencePage=174,145,144,115,
-eclipse.preferences.version=1
-org.eclipse.debug.ui.PREF_LAUNCH_PERSPECTIVES=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<launchPerspectives/>\n
-org.eclipse.debug.ui.consoleBackground=30,30,30
-org.eclipse.debug.ui.inColor=86,156,214
-org.eclipse.debug.ui.outColor=86,156,214
-preferredTargets=com.ti.ccstudio.debug.ui.editorToggleBreakpointTarget\:com.ti.ccstudio.debug.ui.editorToggleBreakpointTarget|com.ti.ccstudio.debug.ui.editorToggleBreakpointTarget,org.eclipse.cdt.debug.ui.toggleCBreakpointTarget,org.eclipse.cdt.debug.ui.toggleCDynamicPrintfTarget\:com.ti.ccstudio.debug.ui.editorToggleBreakpointTarget|org.eclipse.cdt.debug.ui.toggleCBreakpointTarget,org.eclipse.cdt.debug.ui.toggleCDynamicPrintfTarget\:org.eclipse.cdt.debug.ui.toggleCBreakpointTarget|

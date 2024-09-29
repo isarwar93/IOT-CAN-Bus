@@ -1,4 +1,0 @@
-L 1 "/home/ismail/ti/ccs1271/ccs/eclipse/configuration/org.eclipse.osgi/637/0/.cp/resources/languageSettings/dummy.cpp"
-Nint main(void) {
-N	return 0;
-N}
