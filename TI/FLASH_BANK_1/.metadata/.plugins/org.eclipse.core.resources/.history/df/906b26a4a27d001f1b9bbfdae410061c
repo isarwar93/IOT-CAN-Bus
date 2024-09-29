@@ -1,0 +1,15 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#pragma CONST_SECTION(const_info, "CONST_INFO")
+const uint64_t const_info = 0xBBCABBCABBCABB << 8 | 0x01;
+const uint32_t revision_number = 0x00010001;
+
+#pragma DATA_SECTION(revision_number, "REV_SECTION")
+const uint32_t revision_number = 0x00010001;
+#define Revision_Major      1
+#define Revision_Minor      0
+#define REVISION_SUB        1
+
+
+#endif

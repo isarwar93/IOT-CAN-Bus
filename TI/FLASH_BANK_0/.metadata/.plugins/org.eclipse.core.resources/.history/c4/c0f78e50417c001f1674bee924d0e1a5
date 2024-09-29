@@ -1,0 +1,6 @@
+# FIXED
+
+src/SCI_Boot.obj: /home/ismail/IOT-CANBus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_CPU1/src/SCI_Boot.c
+
+/home/ismail/IOT-CANBus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_CPU1/src/SCI_Boot.c:
+

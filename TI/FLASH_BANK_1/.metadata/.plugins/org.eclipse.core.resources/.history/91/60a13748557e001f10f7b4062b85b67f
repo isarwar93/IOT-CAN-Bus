@@ -1,0 +1,10 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+LIB_SRCS += \
+/home/ismail/ti/C2000Ware_5_02_00_00/libraries/flash_api/f2837xd/lib/F021_API_F2837xD_FPU32.lib \
+/home/ismail/ti/C2000Ware_5_02_00_00/libraries/boot_rom/f2837xd/rev0/rom_symbol_libs/c1_ROM_API/c1bootROM_BootROMSymbols_fpu32.lib 
+
+

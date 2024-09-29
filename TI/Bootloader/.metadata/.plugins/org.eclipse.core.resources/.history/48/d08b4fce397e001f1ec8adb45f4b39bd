@@ -1,0 +1,42 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+ASM_SRCS += \
+../assembly/DCSM_Z1_ZoneSelectBlock.asm \
+../assembly/DCSM_Z2_ZoneSelectBlock.asm \
+../assembly/F2837xD_usDelay.asm \
+../assembly/fwupgradec1toc2_start.asm 
+
+OBJS += \
+./assembly/DCSM_Z1_ZoneSelectBlock.obj \
+./assembly/DCSM_Z2_ZoneSelectBlock.obj \
+./assembly/F2837xD_usDelay.obj \
+./assembly/fwupgradec1toc2_start.obj 
+
+ASM_DEPS += \
+./assembly/DCSM_Z1_ZoneSelectBlock.d \
+./assembly/DCSM_Z2_ZoneSelectBlock.d \
+./assembly/F2837xD_usDelay.d \
+./assembly/fwupgradec1toc2_start.d 
+
+OBJS__QUOTED += \
+"assembly/DCSM_Z1_ZoneSelectBlock.obj" \
+"assembly/DCSM_Z2_ZoneSelectBlock.obj" \
+"assembly/F2837xD_usDelay.obj" \
+"assembly/fwupgradec1toc2_start.obj" 
+
+ASM_DEPS__QUOTED += \
+"assembly/DCSM_Z1_ZoneSelectBlock.d" \
+"assembly/DCSM_Z2_ZoneSelectBlock.d" \
+"assembly/F2837xD_usDelay.d" \
+"assembly/fwupgradec1toc2_start.d" 
+
+ASM_SRCS__QUOTED += \
+"../assembly/DCSM_Z1_ZoneSelectBlock.asm" \
+"../assembly/DCSM_Z2_ZoneSelectBlock.asm" \
+"../assembly/F2837xD_usDelay.asm" \
+"../assembly/fwupgradec1toc2_start.asm" 
+
+

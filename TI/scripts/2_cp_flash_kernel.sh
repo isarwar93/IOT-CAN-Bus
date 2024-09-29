@@ -1,0 +1,1 @@
+cp /home/ismail/IOT-CANBus/TI/FLASH_BANK1/SCI_CAN_Interfaces_CPU1/CPU1_FLASH/SCI_CAN_Interfaces_CPU1.txt /home/ismail/dual_CPU/script/firmware_cpu1.txt

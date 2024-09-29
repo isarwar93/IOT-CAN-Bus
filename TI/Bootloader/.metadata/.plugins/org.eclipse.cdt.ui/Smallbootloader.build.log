@@ -1,0 +1,8 @@
+
+**** Build of configuration CPU1_FLASH for project Smallbootloader ****
+
+/home/ismail/ti/ccs1271/ccs/utils/bin/gmake -k -j 4 all -O 
+ 
+gmake[1]: 'Smallbootloader.out' is up to date.
+
+**** Build Finished ****

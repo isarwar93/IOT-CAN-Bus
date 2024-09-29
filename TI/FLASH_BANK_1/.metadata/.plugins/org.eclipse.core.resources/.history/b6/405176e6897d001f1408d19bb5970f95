@@ -1,0 +1,149 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+CMD_SRCS += \
+../2837xD_FLASH_lnk_cpu1.cmd \
+../F2837xD_Headers_nonBIOS_cpu1.cmd \
+../flash_programming_cpu1tocpu2_RAM.cmd 
+
+LIB_SRCS += \
+/home/ismail/ti/C2000Ware_5_02_00_00/libraries/flash_api/f2837xd/lib/F021_API_F2837xD_FPU32.lib \
+/home/ismail/ti/C2000Ware_5_02_00_00/libraries/boot_rom/f2837xd/rev0/rom_symbol_libs/c1_ROM_API/c1bootROM_BootROMSymbols_fpu32.lib 
+
+ASM_SRCS += \
+../DCSM_Z1_ZoneSelectBlock.asm \
+../DCSM_Z2_ZoneSelectBlock.asm \
+../F2837xD_usDelay.asm \
+../fwupgradec1toc2_start.asm 
+
+C_SRCS += \
+../F2837xD_DefaultISR.c \
+../F2837xD_GlobalVariableDefs.c \
+../F2837xD_Gpio.c \
+/home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/common/source/F2837xD_Ipc.c \
+/home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/common/source/F2837xD_Ipc_Driver_Util.c \
+../F2837xD_PieCtrl.c \
+../F2837xD_PieVect.c \
+../F2837xD_SysCtrl.c \
+../F2837xD_sci_flash_kernels_cpu01.c \
+../Fapi_UserDefinedFunctions.c \
+../SCI_Boot.c \
+../SCI_GetFunction.c \
+../Shared_Boot.c \
+../Shared_Erase.c \
+../Shared_Verify.c 
+
+C_DEPS += \
+./F2837xD_DefaultISR.d \
+./F2837xD_GlobalVariableDefs.d \
+./F2837xD_Gpio.d \
+./F2837xD_Ipc.d \
+./F2837xD_Ipc_Driver_Util.d \
+./F2837xD_PieCtrl.d \
+./F2837xD_PieVect.d \
+./F2837xD_SysCtrl.d \
+./F2837xD_sci_flash_kernels_cpu01.d \
+./Fapi_UserDefinedFunctions.d \
+./SCI_Boot.d \
+./SCI_GetFunction.d \
+./Shared_Boot.d \
+./Shared_Erase.d \
+./Shared_Verify.d 
+
+OBJS += \
+./DCSM_Z1_ZoneSelectBlock.obj \
+./DCSM_Z2_ZoneSelectBlock.obj \
+./F2837xD_DefaultISR.obj \
+./F2837xD_GlobalVariableDefs.obj \
+./F2837xD_Gpio.obj \
+./F2837xD_Ipc.obj \
+./F2837xD_Ipc_Driver_Util.obj \
+./F2837xD_PieCtrl.obj \
+./F2837xD_PieVect.obj \
+./F2837xD_SysCtrl.obj \
+./F2837xD_sci_flash_kernels_cpu01.obj \
+./F2837xD_usDelay.obj \
+./Fapi_UserDefinedFunctions.obj \
+./SCI_Boot.obj \
+./SCI_GetFunction.obj \
+./Shared_Boot.obj \
+./Shared_Erase.obj \
+./Shared_Verify.obj \
+./fwupgradec1toc2_start.obj 
+
+ASM_DEPS += \
+./DCSM_Z1_ZoneSelectBlock.d \
+./DCSM_Z2_ZoneSelectBlock.d \
+./F2837xD_usDelay.d \
+./fwupgradec1toc2_start.d 
+
+OBJS__QUOTED += \
+"DCSM_Z1_ZoneSelectBlock.obj" \
+"DCSM_Z2_ZoneSelectBlock.obj" \
+"F2837xD_DefaultISR.obj" \
+"F2837xD_GlobalVariableDefs.obj" \
+"F2837xD_Gpio.obj" \
+"F2837xD_Ipc.obj" \
+"F2837xD_Ipc_Driver_Util.obj" \
+"F2837xD_PieCtrl.obj" \
+"F2837xD_PieVect.obj" \
+"F2837xD_SysCtrl.obj" \
+"F2837xD_sci_flash_kernels_cpu01.obj" \
+"F2837xD_usDelay.obj" \
+"Fapi_UserDefinedFunctions.obj" \
+"SCI_Boot.obj" \
+"SCI_GetFunction.obj" \
+"Shared_Boot.obj" \
+"Shared_Erase.obj" \
+"Shared_Verify.obj" \
+"fwupgradec1toc2_start.obj" 
+
+C_DEPS__QUOTED += \
+"F2837xD_DefaultISR.d" \
+"F2837xD_GlobalVariableDefs.d" \
+"F2837xD_Gpio.d" \
+"F2837xD_Ipc.d" \
+"F2837xD_Ipc_Driver_Util.d" \
+"F2837xD_PieCtrl.d" \
+"F2837xD_PieVect.d" \
+"F2837xD_SysCtrl.d" \
+"F2837xD_sci_flash_kernels_cpu01.d" \
+"Fapi_UserDefinedFunctions.d" \
+"SCI_Boot.d" \
+"SCI_GetFunction.d" \
+"Shared_Boot.d" \
+"Shared_Erase.d" \
+"Shared_Verify.d" 
+
+ASM_DEPS__QUOTED += \
+"DCSM_Z1_ZoneSelectBlock.d" \
+"DCSM_Z2_ZoneSelectBlock.d" \
+"F2837xD_usDelay.d" \
+"fwupgradec1toc2_start.d" 
+
+ASM_SRCS__QUOTED += \
+"../DCSM_Z1_ZoneSelectBlock.asm" \
+"../DCSM_Z2_ZoneSelectBlock.asm" \
+"../F2837xD_usDelay.asm" \
+"../fwupgradec1toc2_start.asm" 
+
+C_SRCS__QUOTED += \
+"../F2837xD_DefaultISR.c" \
+"../F2837xD_GlobalVariableDefs.c" \
+"../F2837xD_Gpio.c" \
+"/home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/common/source/F2837xD_Ipc.c" \
+"/home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/common/source/F2837xD_Ipc_Driver_Util.c" \
+"../F2837xD_PieCtrl.c" \
+"../F2837xD_PieVect.c" \
+"../F2837xD_SysCtrl.c" \
+"../F2837xD_sci_flash_kernels_cpu01.c" \
+"../Fapi_UserDefinedFunctions.c" \
+"../SCI_Boot.c" \
+"../SCI_GetFunction.c" \
+"../Shared_Boot.c" \
+"../Shared_Erase.c" \
+"../Shared_Verify.c" 
+
+

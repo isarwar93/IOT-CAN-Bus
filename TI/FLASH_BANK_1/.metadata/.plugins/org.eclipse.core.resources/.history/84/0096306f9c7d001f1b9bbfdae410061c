@@ -1,0 +1,9 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+uint16_t Revision_Major = 0x01;
+    Uint16_t Revision_Minor = 0x00;
+    uint1_t
+
+
+#endif

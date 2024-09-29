@@ -1,0 +1,17 @@
+#ifndef _CONFIG_H
+#define _CONFIG_H
+
+// Total 8 bytes are required to get information about the firmware
+// 1. Flash bank number: 1 -> 1 byte
+// 2. Starting fixed bytes: 0xBBCABBCABBCABB -> 7 bytes
+#pragma DATA_SECTION(const_info, "CONST_INFO")
+const uint32_t const_info = 0x01 >> 24 | 0xCABB;
+
+// 3. Revision information: {2bytes:Major,0:(as comma),2Bytes:Minor,0:(as comma),2bytes:subminor} -> 8 bytes
+#pragma DATA_SECTION(revision_number, "REV_INFO")
+//                               Major     -   ,    -    Minor -   ,    Subminor
+const uint16_t revision_number[8] = {0x00,0x01,0,0x00,0x00,0,0x00,0x01};
+
+
+
+#endif
