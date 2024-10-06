@@ -202,38 +202,8 @@ Uint32 SCI_GetFunction(Uint32  BootMode)
 
     ScibRegs.SCICTL1.all = 0x0023;  // Relinquish SCI from Reset
     SCIB_AutobaudLock();
-//    int i = 0;
-//    for(i=0;i < 5;i++)
-//    {
-//        GPIO_WritePin(31, 0);
-//        DELAY_US(1000*10);
-//        GPIO_WritePin(31, 1);
-//        DELAY_US(1000*10);
-//    }
-//    while(1)
-//    {
-//        for(i=0;i < 5;i++)
-//        {
-//            GPIO_WritePin(31, 0);
-//            DELAY_US(10*1000);
-//            GPIO_WritePin(31, 1);
-//            DELAY_US(100*1000);
-//        }
 
-//        char str[15] = "Hello SCi-B\n";
-//        scibSendString(str);
-//        char receive_buffer[23];
-//        scibReceiveString(receive_buffer, 20);
-
-//        scibSendString(receive_buffer);
-//        DELAY_US(1000*1000);
-
-//        length[0] = 2;
-//        ERASE_CPU1
-       command = SCI_GetPacket(&length, data);
-//        memcpy(str,&command,2);
-//        scibSendString(command);
-//    }
+    command = SCI_GetPacket(&length, data);
 
 
     while(command != RESET_CPU1)
@@ -462,7 +432,7 @@ void SCIB_Init(Uint32  BootMode)
     ScibRegs.SCICTL2.all = 0x0000;
 
 
-    // Relinquish SCI-A from reset
+    // Relinquish SCI-B from reset
     ScibRegs.SCICTL1.all = 0x0023;
     EDIS;
 
@@ -714,13 +684,13 @@ void SCI_Pinmux_Option1(void)
 //                       2) Configure GPIO28 as SCIRXDA pin
 //                       3) Configure GPIO28 as asynchronous pin
 //
-void SCI_Pinmux_Option2(void)
-{
-
-    EALLOW;
-    GPIO_SetupPinOptions(18, GPIO_OUTPUT, GPIO_ASYNC);
-    GPIO_SetupPinMux(18,GPIO_MUX_CPU1,5);
-    GPIO_SetupPinOptions(19, GPIO_INPUT, GPIO_ASYNC);
-    GPIO_SetupPinMux(19,GPIO_MUX_CPU1,5);
-    EDIS;
-}
+//void SCI_Pinmux_Option2(void)
+//{
+//
+//    EALLOW;
+//    GPIO_SetupPinOptions(18, GPIO_OUTPUT, GPIO_ASYNC);
+//    GPIO_SetupPinMux(18,GPIO_MUX_CPU1,5);
+//    GPIO_SetupPinOptions(19, GPIO_INPUT, GPIO_ASYNC);
+//    GPIO_SetupPinMux(19,GPIO_MUX_CPU1,5);
+//    EDIS;
+//}

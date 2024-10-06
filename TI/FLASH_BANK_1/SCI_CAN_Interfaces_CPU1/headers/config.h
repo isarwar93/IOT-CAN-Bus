@@ -14,4 +14,11 @@ const uint16_t const_info [4] = {0xCAAB,0xCAAB,0xBAAC,0xCAA1};
 const uint16_t revision_number[5] = {0x0002,0,0x0002,0,0x0003};
 
 
+
+#define SCI_B_TX_PIN 18
+#define SCI_B_RX_PIN 19
+
+#define BLUE_LED 31
+#define RED_LED 34
+
 #endif
