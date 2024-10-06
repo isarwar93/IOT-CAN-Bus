@@ -5,3 +5,10 @@ CPU1_FLASH/
 .metadata/
 RemoteSystemsTempFiles/
 dvt/
+/.vs
+/Release
+/Debug
+/build
+/x64
+/TI/sci_flasher/build/
+build/
