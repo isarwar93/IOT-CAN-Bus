@@ -10,7 +10,7 @@ const uint16_t const_info [4] = {0xCAAB,0xCAAB,0xBAAC,0xCAA0};
 // 3. Revision information: {2bytes:Major,0:(as comma),2Bytes:Minor,0:(as comma),2bytes:subminor} -> 8 bytes
 #pragma DATA_SECTION(revision_number, "REV_INFO")
 //                               Major     -   ,    -    Minor -   ,    Subminor
-const uint16_t revision_number[5] = {0x0002,0,0x0002,0,0x0002};
+const uint16_t revision_number[5] = {0x0002,0,0x0003,0,0x0002};
 
 
 

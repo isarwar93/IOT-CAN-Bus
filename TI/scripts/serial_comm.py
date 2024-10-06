@@ -11,14 +11,14 @@ ser = serial.Serial('/dev/ttyUSB1', 115200, timeout=8)
 old_num = 0
 reconstructed_num = 0
 # while True:
-     # data = ser.read(10)
-     # # Print data in hexadecimal
-     # hex_data = ' '.join(f'0x{byte:02X}' for byte in data)
-     # old_num = reconstructed_num
-     # for i in range(0,4):
-     #      # reconstructed_num = (data[3] << 24) | (data[2] << 16) | (data[1] << 8) | data[0]
-     #      reconstructed_num = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3]
-     # # old_num = reconstructed_num/200
+#      data = ser.read(10)
+#      # Print data in hexadecimal
+#      hex_data = ' '.join(f'0x{byte:02X}' for byte in data)
+#      old_num = reconstructed_num
+#      for i in range(0,4):
+#           # reconstructed_num = (data[3] << 24) | (data[2] << 16) | (data[1] << 8) | data[0]
+#           reconstructed_num = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3]
+     # old_num = reconstructed_num/200
      
      # print(f"Reconstructed 32-bit integer: {(reconstructed_num)/200}")
      # reconstructed_num_div = reconstructed_num/200

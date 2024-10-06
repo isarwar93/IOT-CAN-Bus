@@ -72,12 +72,6 @@
 //#include "device.h"
 
 
-// Defines
-//#define C1C2_BROM_IPC_EXECUTE_BOOTMODE_CMD    0x00000013
-//#define C1C2_BROM_BOOTMODE_BOOT_FROM_SCI      0x00000001
-//#define C1C2_BROM_BOOTMODE_BOOT_FROM_RAM      0x0000000A
-//#define C1C2_BROM_BOOTMODE_BOOT_FROM_FLASH    0x0000000B
-
 
 // Function Prototypes
 void Example_Error(Fapi_StatusType status);
@@ -184,6 +178,17 @@ uint32_t main(void)
     InitSysCtrl(); //PLL activates and copy code from FLASH to RAM
 //    clearRAM();      // Call the function to clear RAM
 
+//
+#ifdef _STANDALONE
+#ifdef _FLASH
+// Send boot command to allow the CPU2 application to begin execution
+    IPCBootCPU2(C1C2_BROM_BOOTMODE_BOOT_FROM_FLASH);
+#else
+// Send boot command to allow the CPU2 application to begin execution
+    IPCBootCPU2(C1C2_BROM_BOOTMODE_BOOT_FROM_RAM);
+#endif
+#endif
+
     InitCPUTimer0();        // Initialize and start the timer
 
     start_time = GetElapsedTime();   // Get the starting time
@@ -207,9 +212,9 @@ uint32_t main(void)
     }
 
     // Red LED initialization
-    GPIO_SetupPinMux(RED_LED, GPIO_MUX_CPU1, 0);
+    GPIO_SetupPinMux(RED_LED, GPIO_MUX_CPU2, 0);
     GPIO_SetupPinOptions(RED_LED, GPIO_OUTPUT, GPIO_PUSHPULL);
-    GPIO_WritePin(RED_LED, 1); // Turn off Red LED
+//    GPIO_WritePin(RED_LED, 1); // Turn off Red LED
 
 
     // Initialize GPIO pins for SCI-B
@@ -219,6 +224,7 @@ uint32_t main(void)
     GPIO_SetupPinMux(SCI_B_TX_PIN,GPIO_MUX_CPU1,2);
     GPIO_SetupPinOptions(SCI_B_RX_PIN, GPIO_INPUT, GPIO_PUSHPULL);
     GPIO_SetupPinMux(SCI_B_RX_PIN,GPIO_MUX_CPU1,2);
+
     EDIS;
 
     // Step 3. Clear all interrupts and initialize PIE vector table:
@@ -316,21 +322,24 @@ uint32_t main(void)
                 if (counter_flasher == 8) break; // break the loop and wait for the flash instructions
             }
             // if 2nd byte 0x1f then return 10 bytes with the information of current flash bank number
-            if (Receive_SCI_Buf[1] == 0x1f)
+            else if (Receive_SCI_Buf[1] == 0x1f)
             {
                 memset(Receive_SCI_Buf,0,20);
                 memset(Send_SCI_Buf,0,20);
                 memcpy(Send_SCI_Buf,const_info,4);
+                memcpy(Send_SCI_Buf+4,revision_number,5);
+
+                memcpy(Send_SCI_Buf,const_info,4);
             }
             // if 2nd byte 0x2f then return 10 bytes with the information of current revision number
-            if (Receive_SCI_Buf[1] == 0x2f)
-            {
-                memset(Receive_SCI_Buf,0,20);
-                memset(Send_SCI_Buf,0,20);
-                memcpy(Send_SCI_Buf,revision_number,5);
-            }
+//            else if (Receive_SCI_Buf[1] == 0x2f)
+//            {
+//                memset(Receive_SCI_Buf,0,20);
+//                memset(Send_SCI_Buf,0,20);
+//                memcpy(Send_SCI_Buf,revision_number,5);
+//            }
             // if 2nd byte 0x3f then go to other flash bank, which is flash bank 1
-            if (Receive_SCI_Buf[1] == 0x3f)
+            else if (Receive_SCI_Buf[1] == 0x3f)
             {
                 memset(Receive_SCI_Buf,0,20);
                 return (uint32_t)0xA0000;

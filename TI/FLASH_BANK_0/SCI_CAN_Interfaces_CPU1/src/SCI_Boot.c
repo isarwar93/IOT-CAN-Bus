@@ -252,27 +252,13 @@ void Assign_SCIB_IO_CPU2(Uint32 BootMode)
 
     if((BootMode & 0xF0) == 0x0)
     {
-        GPIO_SetupPinOptions(18, GPIO_OUTPUT, GPIO_ASYNC);
+         GPIO_SetupPinOptions(18, GPIO_OUTPUT, GPIO_ASYNC);
          GPIO_SetupPinMux(18,GPIO_MUX_CPU2,2);
          GPIO_SetupPinOptions(19, GPIO_INPUT, GPIO_PUSHPULL);
          GPIO_SetupPinMux(19,GPIO_MUX_CPU2,2);
-        //OPTION 1
-        //
-//        GPIO_SetupPinOptions(84, GPIO_OUTPUT, GPIO_ASYNC);
-//        GPIO_SetupPinMux(84,GPIO_MUX_CPU2,5);
-//        GPIO_SetupPinOptions(85, GPIO_INPUT, GPIO_ASYNC);
-//        GPIO_SetupPinMux(85,GPIO_MUX_CPU2,5);
+
     }
-    else
-    {
-        //
-        //OPTION 2
-        //
-        GPIO_SetupPinOptions(29, GPIO_OUTPUT, GPIO_ASYNC);
-        GPIO_SetupPinMux(29,GPIO_MUX_CPU2,1);
-        GPIO_SetupPinOptions(28, GPIO_INPUT, GPIO_ASYNC);
-        GPIO_SetupPinMux(28,GPIO_MUX_CPU2,1);
-    }
+
     EDIS;
 }
 
