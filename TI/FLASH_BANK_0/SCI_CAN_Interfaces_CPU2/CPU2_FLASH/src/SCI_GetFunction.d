@@ -80,6 +80,7 @@ src/SCI_GetFunction.obj: /home/ismail/ti/C2000Ware_5_02_00_00/libraries/flash_ap
 src/SCI_GetFunction.obj: /home/ismail/IOT-CAN-Bus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_CPU2/headers/flash_programming_c28.h
 src/SCI_GetFunction.obj: /home/ismail/IOT-CAN-Bus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_CPU2/headers/Shared_Verify.h
 src/SCI_GetFunction.obj: /home/ismail/IOT-CAN-Bus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_CPU2/headers/flash_programming_c28.h
+src/SCI_GetFunction.obj: /home/ismail/IOT-CAN-Bus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_CPU2/headers/config.h
 
 ../src/SCI_GetFunction.c:
 
@@ -240,4 +241,6 @@ src/SCI_GetFunction.obj: /home/ismail/IOT-CAN-Bus/TI/FLASH_BANK_0/SCI_CAN_Interf
 /home/ismail/IOT-CAN-Bus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_CPU2/headers/Shared_Verify.h:
 
 /home/ismail/IOT-CAN-Bus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_CPU2/headers/flash_programming_c28.h:
+
+/home/ismail/IOT-CAN-Bus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_CPU2/headers/config.h:
 

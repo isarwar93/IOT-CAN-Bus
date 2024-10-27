@@ -78,6 +78,56 @@ void Example_Error(Fapi_StatusType status);
 void Init_Flash_Sectors(void);
 extern Uint32 SCI_GetFunction(Uint32  BootMode);
 
+
+
+//
+// Defines
+//
+#define CPU02TOCPU01_PASSMSG  0x0003FBF4     // CPU02 to CPU01 MSG RAM offsets
+                                             // for passing address
+#define SETMASK_16BIT         0xFF00         // Mask for setting bits of
+                                             // 16-bit word
+#define CLEARMASK_16BIT       0xA5A5         // Mask for clearing bits of
+                                             // 16-bit word
+#define SETMASK_32BIT         0xFFFF0000     // Mask for setting bits of
+                                             // 32-bit word
+#define CLEARMASK_32BIT       0xA5A5A5A5     // Mask for clearing bits of
+                                             // 32-bit word
+#define GS0SARAM_START        0xC000         // Start of GS0 SARAM
+
+//
+// Globals
+//
+
+//
+// At least 1 volatile global tIpcController instance is required when using
+// IPC API Drivers.
+//
+volatile tIpcController g_sIpcController1;
+volatile tIpcController g_sIpcController2;
+
+volatile uint16_t ErrorFlag;
+volatile uint16_t ErrorCount;
+
+//
+// Global variables used in this example to read/write data passed between
+// CPU01 and CPU02
+//
+uint16_t usWWord16;
+uint32_t ulWWord32;
+uint16_t usRWord16;
+uint32_t ulRWord32;
+uint16_t usCPU01Buffer[256];
+
+//
+// Function Prototypes
+//
+void Error(void);
+__interrupt void CPU02toCPU01IPC0IntHandler(void);
+__interrupt void CPU02toCPU01IPC1IntHandler(void);
+
+//
+
 //
 // Defines
 //
@@ -165,20 +215,21 @@ void clearRAM(void)
 
 uint32_t main(void)
 {
-
-
     // SCIB Flush
     while(!ScibRegs.SCICTL2.bit.TXEMPTY)
     {
     }
 
+    uint16_t counter;
+    uint16_t *pusCPU01BufferPt;
+    uint16_t *pusCPU02BufferPt;
+    uint32_t *pulMsgRam ;
+
     // Step 1. Initialize System Control:
     // Enable Peripheral Clocks
     // This example function is found in the F2837xD_SysCtrl.c file.
     InitSysCtrl(); //PLL activates and copy code from FLASH to RAM
-//    clearRAM();      // Call the function to clear RAM
 
-//
 #ifdef _STANDALONE
 #ifdef _FLASH
 // Send boot command to allow the CPU2 application to begin execution
@@ -192,8 +243,6 @@ uint32_t main(void)
     InitCPUTimer0();        // Initialize and start the timer
 
     start_time = GetElapsedTime();   // Get the starting time
-
-
     // Step 2. Initialize GPIO:
     // This example function is found in the F2837xD_Gpio.c file and
     // illustrates how to set the GPIO to it's default state.
@@ -214,7 +263,6 @@ uint32_t main(void)
     // Red LED initialization
     GPIO_SetupPinMux(RED_LED, GPIO_MUX_CPU2, 0);
     GPIO_SetupPinOptions(RED_LED, GPIO_OUTPUT, GPIO_PUSHPULL);
-//    GPIO_WritePin(RED_LED, 1); // Turn off Red LED
 
 
     // Initialize GPIO pins for SCI-B
@@ -224,7 +272,6 @@ uint32_t main(void)
     GPIO_SetupPinMux(SCI_B_TX_PIN,GPIO_MUX_CPU1,2);
     GPIO_SetupPinOptions(SCI_B_RX_PIN, GPIO_INPUT, GPIO_PUSHPULL);
     GPIO_SetupPinMux(SCI_B_RX_PIN,GPIO_MUX_CPU1,2);
-
     EDIS;
 
     // Step 3. Clear all interrupts and initialize PIE vector table:
@@ -253,6 +300,8 @@ uint32_t main(void)
     // ISR functions found within this file.
     EALLOW;  // This is needed to write to EALLOW protected registers
     PieVectTable.SCIB_RX_INT = &scibRxFifoIsr;
+    PieVectTable.IPC0_INT = &CPU02toCPU01IPC0IntHandler;
+    PieVectTable.IPC1_INT = &CPU02toCPU01IPC1IntHandler;
     EDIS;    // This is needed to disable write to EALLOW protected registers
 
     // Step 4. Initialize the Device Peripherals:
@@ -268,8 +317,23 @@ uint32_t main(void)
     PieCtrlRegs.PIECTRL.bit.ENPIE = 1;   // Enable the PIE block
     PieCtrlRegs.PIEIER9.bit.INTx3 = 1;   // PIE Group 9, INT3 (RX)// from the above vector table sci-b is 9.3 and 9.4
     IER |= M_INT9;                       // Enable CPU INT9
-    EINT;
 
+    // Step 4. Initialize the Device Peripherals:
+    ErrorFlag = 0;
+
+    IPCInitialize (&g_sIpcController1, IPC_INT0, IPC_INT0);
+    IPCInitialize (&g_sIpcController2, IPC_INT1, IPC_INT1);
+
+    // Enable CPU INT1 which is connected to Upper PIE IPC INT0-3:
+    IER |= M_INT1;
+
+    // Enable CPU2 to CPU1 IPC INTn in the PIE: Group 1 interrupts
+    PieCtrlRegs.PIEIER1.bit.INTx13 = 1;    // CPU2 to CPU1 INT0
+    PieCtrlRegs.PIEIER1.bit.INTx14 = 1;    // CPU2 to CPU1 INT1
+
+    // Enable global Interrupts and higher priority real-time debug events:
+    EINT;   // Enable Global interrupt INTM
+    ERTM;   // Enable Global realtime interrupt DBGM
 
     while(true)
     {
@@ -331,26 +395,100 @@ uint32_t main(void)
 
                 memcpy(Send_SCI_Buf,const_info,4);
             }
-            // if 2nd byte 0x2f then return 10 bytes with the information of current revision number
-//            else if (Receive_SCI_Buf[1] == 0x2f)
-//            {
-//                memset(Receive_SCI_Buf,0,20);
-//                memset(Send_SCI_Buf,0,20);
-//                memcpy(Send_SCI_Buf,revision_number,5);
-//            }
             // if 2nd byte 0x3f then go to other flash bank, which is flash bank 1
             else if (Receive_SCI_Buf[1] == 0x3f)
             {
                 memset(Receive_SCI_Buf,0,20);
                 return (uint32_t)0xA0000;
             }
+
+            else if (Receive_SCI_Buf[1] == 0x4f)
+            {
+
+                for(i=0;i < 5;i++)
+                {
+                    GPIO_WritePin(BLUE_LED, 0);
+                    DELAY_US(1000*30);
+                    GPIO_WritePin(BLUE_LED, 1);
+                    DELAY_US(1000*505);
+
+                }
+                // Data Block Writes
+
+                // Request Memory Access to GS0 SARAM for CPU01
+                // Clear bits to let CPU01 own GS0
+                if((MemCfgRegs.GSxMSEL.bit.MSEL_GS0) == 1)
+                {
+                    EALLOW;
+                    MemCfgRegs.GSxMSEL.bit.MSEL_GS0 = 0;
+                    EDIS;
+                }
+                // Write a block of data from CPU01 to GS0 shared RAM which is then written to
+                // an CPU02 address
+                for(counter = 0; counter < 256; counter++)
+                {
+                    pusCPU01BufferPt[counter] = usCPU01Buffer[counter];
+                }
+                for(counter = 0; counter < 10; counter++)
+                {
+                    pusCPU01BufferPt[counter] = Receive_SCI_Buf[counter];
+                }
+
+//                for(i=0;i < 5;i++)
+//                {
+//                    GPIO_WritePin(BLUE_LED, 0);
+//                    DELAY_US(1000*3);
+//                    GPIO_WritePin(BLUE_LED, 1);
+//                    DELAY_US(1000*50);
+//
+//                }
+                IPCLtoRBlockWrite(&g_sIpcController2, pulMsgRam[2],
+                                  (uint32_t)pusCPU01BufferPt, 256,
+                                  IPC_LENGTH_16_BITS,ENABLE_BLOCKING);
+
+                // Give Memory Access to GS0 SARAM to CPU02
+                while(!(MemCfgRegs.GSxMSEL.bit.MSEL_GS0))
+                {
+                    EALLOW;
+                    MemCfgRegs.GSxMSEL.bit.MSEL_GS0 = 1;
+                    EDIS;
+                }
+
+//                for(i=0;i < 5;i++)
+//                {
+//                    GPIO_WritePin(BLUE_LED, 0);
+//                    DELAY_US(1000*30);
+//                    GPIO_WritePin(BLUE_LED, 1);
+//                    DELAY_US(1000*505);
+//
+//                }
+                // Read data back from CPU02.
+                IPCLtoRBlockRead(&g_sIpcController2, pulMsgRam[2],
+                                 (uint32_t)pusCPU02BufferPt, 256,
+                                 ENABLE_BLOCKING,IPC_FLAG17);
+
+                memcpy(Send_SCI_Buf,pusCPU02BufferPt,20);
+
+//                for(i=0;i < 5;i++)
+//                {
+//                    GPIO_WritePin(BLUE_LED, 0);
+//                    DELAY_US(1000*3);
+//                    GPIO_WritePin(BLUE_LED, 1);
+//                    DELAY_US(1000*50);
+//
+//                }
+
+               GPIO_SetupPinMux(RED_LED, GPIO_MUX_CPU2, 0);
+               GPIO_SetupPinOptions(RED_LED, GPIO_OUTPUT, GPIO_PUSHPULL);
+            }
+            memset(Receive_SCI_Buf,0,20);
         }
 
         for(i=0; i < 10; i++)
         {
             // Wait until the TX buffer is ready
             while(ScibRegs.SCICTL2.bit.TXRDY == 0);
-            ScibRegs.SCITXBUF.all=Send_SCI_Buf[i];  // Send data
+            ScibRegs.SCITXBUF.all = Send_SCI_Buf[i];  // Send data
         }
     }
     memset(Receive_SCI_Buf,0,20);
@@ -461,8 +599,46 @@ void scib_fifo_init()
 
     // Step 7: Release SCI from reset
     ScibRegs.SCICTL1.bit.SWRESET = 1;      // Release from reset
-
     EDIS;
+}
+
+// CPU02toCPU01IPC0IntHandler - Handles writes into CPU01 addresses as a
+//                              result of read commands to the CPU02.
+__interrupt void CPU02toCPU01IPC0IntHandler (void)
+{
+    tIpcMessage sMessage;
+
+    // Continue processing messages as long as CPU01 to CPU02
+    // GetBuffer1 is full
+    while(IpcGet(&g_sIpcController1, &sMessage,
+                 DISABLE_BLOCKING) != STATUS_FAIL)
+    {
+        switch (sMessage.ulcommand)
+        {
+            case IPC_DATA_WRITE:
+                IPCRtoLDataWrite(&sMessage);
+                break;
+            default:
+                ErrorFlag = 1;
+                break;
+        }
+    }
+
+    // Acknowledge IPC INT0 Flag and PIE to receive more interrupts
+    IpcRegs.IPCACK.bit.IPC0 = 1;
+    PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
+}
+
+//
+// CPU02toCPU01IPC1IntHandler - Should never reach this ISR. This is an
+//                              optional placeholder for g_sIpcController2.
+//
+__interrupt void CPU02toCPU01IPC1IntHandler (void)
+{
+    // Should never reach here - Placeholder for Debug
+    // Acknowledge IPC INT1 Flag and PIE to receive more interrupts
+    IpcRegs.IPCACK.bit.IPC1 = 1;
+    PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
 }
 
 //

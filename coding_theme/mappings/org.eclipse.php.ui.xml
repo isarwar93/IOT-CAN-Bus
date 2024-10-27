@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<eclipseColorThemeMapping plugin="org.eclipse.php.ui" created="2011-02-08 22:34:57"> 
+    <mappings> 
+        <mapping pluginKey="codeStyleNormal" themeKey="foreground" /> 
+        <mapping pluginKey="editorColorKeyword" themeKey="keyword" /> 
+        <mapping pluginKey="editorColorBoundarymaker" themeKey="foreground" /> 
+        <mapping pluginKey="editorColorNumber" themeKey="number" /> 
+        <mapping pluginKey="editorColorComment" themeKey="multiLineComment" /> 
+        <mapping pluginKey="editorColorPhpdoc" themeKey="javadoc" /> 
+        <mapping pluginKey="editorColorHeredoc" themeKey="javadoc" /> 
+        <mapping pluginKey="editorColorVariable" themeKey="localVariable" /> 
+        <mapping pluginKey="editorColorString" themeKey="string" /> 
+        <mapping pluginKey="editorColorTask" themeKey="commentTaskTag" /> 
+        <mapping pluginKey="editorColorLineComment" themeKey="singleLineComment" /> 
+        <mapping pluginKey="editorColorPHPDocComment" themeKey="javadoc" /> 
+    </mappings> 
+    <semanticHighlightingMappings> 
+        <semanticHighlightingMapping pluginKey="semanticHighlighting.org.eclipse.php.internal.ui.editor.highlighters.InternalFunctionHighlighting" themeKey="method" /> 
+        <semanticHighlightingMapping pluginKey="semanticHighlighting.org.eclipse.php.internal.ui.editor.highlighters.InternalConstantHighlighting" themeKey="staticFinalField" /> 
+        <semanticHighlightingMapping pluginKey="semanticHighlighting.org.eclipse.php.internal.ui.editor.highlighters.InternalClassHighlighting" themeKey="class" /> 
+        <semanticHighlightingMapping pluginKey="semanticHighlighting.org.eclipse.php.internal.ui.editor.highlighters.ConstantHighlighting" themeKey="staticFinalField" /> 
+        <semanticHighlightingMapping pluginKey="semanticHighlighting.org.eclipse.php.internal.ui.editor.highlighters.FieldHighlighting" themeKey="field" /> 
+        <semanticHighlightingMapping pluginKey="semanticHighlighting.org.eclipse.php.internal.ui.editor.highlighters.StaticFieldHighlighting" themeKey="staticField" /> 
+        <semanticHighlightingMapping pluginKey="semanticHighlighting.org.eclipse.php.internal.ui.editor.highlighters.StaticMethodHighlighting" themeKey="staticMethod" /> 
+        <semanticHighlightingMapping pluginKey="semanticHighlighting.org.eclipse.php.internal.ui.editor.highlighters.ClassHighlighting" themeKey="class" /> 
+        <semanticHighlightingMapping pluginKey="semanticHighlighting.org.eclipse.php.internal.ui.editor.highlighters.ParameterVariableHighlighting" themeKey="localVariable" /> 
+        <semanticHighlightingMapping pluginKey="semanticHighlighting.org.eclipse.php.internal.ui.editor.highlighters.SuperGlobalHighlighting" themeKey="localVariable" /> 
+        <semanticHighlightingMapping pluginKey="semanticHighlighting.org.eclipse.php.internal.ui.editor.highlighters.MethodHighlighting" themeKey="method" /> 
+        <semanticHighlightingMapping pluginKey="semanticHighlighting.org.eclipse.php.internal.ui.editor.highlighters.FunctionHighlighting" themeKey="method" /> 
+        <semanticHighlightingMapping pluginKey="semanticHighlighting.org.eclipse.php.internal.ui.editor.highlighters.DeprecatedHighlighting" themeKey="deprecatedMember" /> 
+    </semanticHighlightingMappings> 
+</eclipseColorThemeMapping> 

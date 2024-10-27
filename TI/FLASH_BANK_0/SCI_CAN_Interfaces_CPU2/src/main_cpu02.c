@@ -69,9 +69,37 @@ extern Uint16 RamfuncsLoadStart;
 extern Uint16 RamfuncsLoadSize;
 extern Uint16 RamfuncsRunStart;
 #endif
+
+
+#define CPU02TOCPU01_PASSMSG  0x0003FBF4    // Used by CPU02 to pass address
+                                            // of local variables to perform
+                                            // actions on
+// At least 1 volatile global tIpcController instance is required when using
+// IPC API Drivers.
+volatile tIpcController g_sIpcController1;
+volatile tIpcController g_sIpcController2;
+
+volatile uint16_t ErrorFlag;
+volatile uint32_t FnCallStatus;
+
 //
-// Main
+// Global variables used in this example to read/write data passed between
+// CPU01 and CPU02
 //
+uint16_t usWWord16;
+uint32_t ulWWord32;
+uint16_t usCPU02Buffer[256];
+
+//
+// Function Prototypes
+//
+__interrupt void CPU01toCPU02IPC0IntHandler(void);
+__interrupt void CPU01toCPU02IPC1IntHandler(void);
+void FunctionCall(void);
+void FunctionCallParam(uint32_t ulParam);
+void Error (void);
+
+
 uint32_t main(void)
 {
     //
@@ -80,6 +108,8 @@ uint32_t main(void)
 //    while(!ScibRegs.SCICTL2.bit.TXEMPTY)
 //    {
 //    }
+    uint32_t *pulMsgRam;
+    uint16_t counter;
 
     //
     // Copy time critical code and Flash setup code to RAM
@@ -124,7 +154,7 @@ uint32_t main(void)
 // are cleared.
 // This function is found in the F2837xD_PieCtrl.c file.
 //
-//    InitPieCtrl();
+    InitPieCtrl();
 
 //
 // Disable CPU interrupts and clear all CPU interrupt flags:
@@ -140,7 +170,7 @@ uint32_t main(void)
 // The shell ISR routines are found in F2837xD_DefaultIsr.c.
 // This function is found in F2837xD_PieVect.c.
 //
-//    InitPieVectTable();
+    InitPieVectTable();
 
         //GPIO_SetupPinMux(31, GPIO_MUX_CPU2, 0);
         //sGPIO_SetupPinOptions(31, GPIO_OUTPUT, GPIO_PUSHPULL);
@@ -148,9 +178,9 @@ uint32_t main(void)
     for(i=0;i < 5;i++)
     {
         GPIO_WritePin(RED_LED, 0);
-        DELAY_US(1000*600);
-        GPIO_WritePin(RED_LED, 1);
         DELAY_US(1000*100);
+        GPIO_WritePin(RED_LED, 1);
+        DELAY_US(1000*300);
     }
 
 
@@ -162,39 +192,121 @@ uint32_t main(void)
 
     while(IpcRegs.IPCBOOTMODE != C1C2_BROM_BOOTMODE_BOOT_FROM_FLASH){}
 
-    while(true)
-    {
-        for(i=0;i < IpcRegs.IPCBOOTMODE;i++)
-        {
-            GPIO_WritePin(RED_LED, 0);
-            DELAY_US(1000*500);
-            GPIO_WritePin(RED_LED, 1);
-            DELAY_US(1000*500);
-        }
-        DELAY_US(1000*5000);
-    }
     EINT; //enable global interrupt INTM
     ERTM; //enable global realtime interrupt
 
+
+
+
+    //
+    // Interrupts that are used in this example are re-mapped to
+    // ISR functions found within this file.
+    EALLOW;  // This is needed to write to EALLOW protected registers
+    PieVectTable.IPC0_INT = &CPU01toCPU02IPC0IntHandler;
+    PieVectTable.IPC1_INT = &CPU01toCPU02IPC1IntHandler;
+    EDIS;    // This is needed to disable write to EALLOW protected registers
+
+    //
+    // Step 4. Initialize the Device Peripherals:
+    IPCInitialize(&g_sIpcController1, IPC_INT0, IPC_INT0);
+    IPCInitialize(&g_sIpcController2, IPC_INT1, IPC_INT1);
+
+    //
+    // Step 5. User specific code, enable interrupts:
+
+    // Enable CPU INT1 which is connected to Upper PIE IPC INT0-3
+    IER |= M_INT1;
+
+    // Enable CPU01 to CPU02 INTn in the PIE: Group 11 interrupts
+    PieCtrlRegs.PIEIER1.bit.INTx13 = 1;   // CPU1 to CPU2 INT0
+    PieCtrlRegs.PIEIER1.bit.INTx14 = 1;   // CPU1 to CPU2 INT1
+
+    //
+    // Enable global Interrupts and higher priority real-time debug events:
+    //
+    EINT;   // Enable Global interrupt INTM
+    ERTM;   // Enable Global realtime interrupt DBGM
+
+    ErrorFlag = 0;
+    FnCallStatus = 0;
+    usWWord16 = 0;
+    ulWWord32 = 0;
+    for(counter = 0; counter < 256; counter++)
+    {
+        usCPU02Buffer[counter] = 0;
+    }
+
+    // Point array to address in CPU02 TO CPU01 MSGRAM for passing
+    // variable locations
+    pulMsgRam = (void *)CPU02TOCPU01_PASSMSG;
+
+    // Write addresses of variables where words should be written to pulMsgRam
+    // array.
+    // 0 = Address of 16-bit word to write to.
+    // 1 = Address of 32-bit word to write to.
+    // 2 = Address of buffer to block write to.
+    // 3 = Address of FunctionCall() function to call.
+    // 4 = Address of FunctionCallParam() function to call.
+    // 5 = Address of 32-bit FnCallStatus variable to check function call executed
+    pulMsgRam[0] = (uint32_t)&usWWord16;
+    pulMsgRam[1] = (uint32_t)&ulWWord32;
+    pulMsgRam[2] = (uint32_t)&usCPU02Buffer[0];
+    pulMsgRam[3] = (uint32_t)&FunctionCall;
+    pulMsgRam[4] = (uint32_t)&FunctionCallParam;
+    pulMsgRam[5] = (uint32_t)&FnCallStatus;
+
+    // Flag to CPU01 that the variables are ready in MSG RAM with CPU02 TO
+    // CPU01 IPC Flag 17
+    IpcRegs.IPCSET.bit.IPC17 = 1;
+
+    while(true)
+    {
+//        for(i=0;i < 3;i++)
+//        {
+//            GPIO_WritePin(RED_LED, 0);
+//            DELAY_US(1000*600);
+//            GPIO_WritePin(RED_LED, 1);
+//            DELAY_US(1000*100);
+//        }
+//        DELAY_US(1000*5000);
+//        for(i=0;i < IpcRegs.IPCBOOTMODE;i++)
+//        {
+//            GPIO_WritePin(RED_LED, 0);
+//            DELAY_US(1000*500);
+//            GPIO_WritePin(RED_LED, 1);
+//            DELAY_US(1000*500);
+//        }
+       DELAY_US(1000*4000);
 //
-// Gain pump semaphore
-//Flash pump is only 1, use either by CPU1 or CPU2
+//       GPIO_SetupPinMux(RED_LED, GPIO_MUX_CPU2, 0);
+//       GPIO_SetupPinOptions(RED_LED, GPIO_OUTPUT, GPIO_PUSHPULL);
+       int i = 0;
+       for(i=0;i < 3;i++)
+       {
+           GPIO_WritePin(RED_LED, 0);
+           DELAY_US(1000*200);
+           GPIO_WritePin(RED_LED, 1);
+           DELAY_US(1000*300);
+       }
+
+    }
+
+
+    // Gain pump semaphore
+    // Flash pump is only 1, use either by CPU1 or CPU2
     SeizeFlashPump();
     Init_Flash_Sectors();
     //put GetFunction here
     uint32_t EntryAddr = SCI_GetFunction();
 
-//
-// Leave control over flash pump
-//
+    // Leave control over flash pump
     SignalCPU1();
     return EntryAddr; //load entry address of application into
                       //RPC: return program counter
 }
 
-//
+
 // Init_Flash_Sectors - Initialize Flash Sectors
-//
 void Init_Flash_Sectors(void)
 {
     EALLOW;
@@ -217,9 +329,109 @@ void Init_Flash_Sectors(void)
     EDIS;
 }
 
+// FunctionCall - Function run by IPC_FUNC_CALL command
+void FunctionCall(void)
+{
+    FnCallStatus = 1;
+}
+
+// FunctionCallParam - Set the call status param
+void FunctionCallParam(uint32_t ulParam)
+{
+    FnCallStatus = ulParam;
+}
+
+// Error - Function to Indicate an Error has Occurred
+//         (Invalid Command Received).
+void Error(void)
+{
+    // An error has occurred (invalid command received). Loop forever.
+    for (;;)
+    {
+        int i;
+        for(i=0;i < 5;i++)
+       {
+           GPIO_WritePin(RED_LED, 0);
+           DELAY_US(1000*10);
+           GPIO_WritePin(RED_LED, 1);
+           DELAY_US(1000*30);
+       }
+
+    }
+}
+
+
+// CPU01toCPU02IPC0IntHandler - Handles Data Word Reads/Writes
+__interrupt void CPU01toCPU02IPC0IntHandler (void)
+{
+    tIpcMessage sMessage;
+
+//    GPIO_WritePin(RED_LED, !GPIO_ReadPin(RED_LED));
+    // Continue processing messages as long as CPU01toCPU02 GetBuffer1 is full
+    while(IpcGet(&g_sIpcController1, &sMessage,DISABLE_BLOCKING)!= STATUS_FAIL)
+    {
+        switch (sMessage.ulcommand)
+        {
+            case IPC_SET_BITS:
+                 //IPCRtoLSetBits(&sMessage);
+                 break;
+            case IPC_CLEAR_BITS:
+                //IPCRtoLClearBits(&sMessage);
+                break;
+            case IPC_DATA_WRITE:
+//                IPCRtoLDataWrite(&sMessage);
+                break;
+            case IPC_DATA_READ:
+//                IPCRtoLDataRead(&g_sIpcController1, &sMessage,
+//                                ENABLE_BLOCKING);
+                break;
+            case IPC_FUNC_CALL:
+//                IPCRtoLFunctionCall(&sMessage);
+                break;
+            default:
+                ErrorFlag = 1;
+                break;
+        }
+    }
+    // Acknowledge IPC INT0 Flag and PIE to receive more interrupts
+    IpcRegs.IPCACK.bit.IPC0 = 1;
+    PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
+}
+
+// CPU01toCPU02IPC1IntHandler - Handles Data Block Reads/Writes
+__interrupt void CPU01toCPU02IPC1IntHandler (void)
+{
+    tIpcMessage sMessage;
+
+//    GPIO_WritePin(RED_LED, !GPIO_ReadPin(RED_LED));
+    // Continue processing messages as long as CPU01toCPU02 GetBuffer2 is full
+    while(IpcGet(&g_sIpcController2, &sMessage,DISABLE_BLOCKING)!= STATUS_FAIL)
+    {
+        switch (sMessage.ulcommand)
+        {
+            case IPC_BLOCK_WRITE:
+                //sMessage.uldataw2 = sMessage.uldataw2*2;
+//                GPIO_WritePin(RED_LED, !GPIO_ReadPin(RED_LED));
+                //IPCRtoLBlockWrite(&sMessage);
+                break;
+            case IPC_BLOCK_READ:
+//                GPIO_WritePin(RED_LED, !GPIO_ReadPin(RED_LED));
+                //IPCRtoLBlockRead(&sMessage);
+                break;
+            default:
+                ErrorFlag = 1;
+                break;
+        }
+    }
+
+    // Acknowledge IPC INT1 Flag and PIE to receive more interrupts
+    IpcRegs.IPCACK.bit.IPC1 = 1;
+    PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
+}
+
+
 //
 // Example_Error - For this example, if an error is found just stop here
-//
 #ifdef __TI_COMPILER_VERSION__
     #if __TI_COMPILER_VERSION__ >= 15009000
         #pragma CODE_SECTION(Example_Error,".TI.ramfunc");
@@ -231,10 +443,5 @@ void Example_Error(Fapi_StatusType status)
 {
     //
     //  Error code will be in the status parameter
-    //
     __asm("    ESTOP0");
 }
-
-//
-// End of file
-//

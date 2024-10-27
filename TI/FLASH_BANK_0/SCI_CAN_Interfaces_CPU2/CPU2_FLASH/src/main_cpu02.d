@@ -4,20 +4,20 @@ src/main_cpu02.obj: ../src/main_cpu02.c
 src/main_cpu02.obj: /home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/common/include/F28x_Project.h
 src/main_cpu02.obj: /home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/common/include/F2837xD_Cla_typedefs.h
 src/main_cpu02.obj: /home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/headers/include/F2837xD_device.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/assert.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/_ti_config.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/linkage.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stdarg.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/_types.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/cdefs.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/machine/_types.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stdbool.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stddef.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stdint.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/_stdint40.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/stdint.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/machine/_stdint.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/_stdint.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/assert.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/_ti_config.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/linkage.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stdarg.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/_types.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/cdefs.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/machine/_types.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stdbool.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stddef.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stdint.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/_stdint40.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/stdint.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/machine/_stdint.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/_stdint.h
 src/main_cpu02.obj: /home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/headers/include/F2837xD_adc.h
 src/main_cpu02.obj: /home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/headers/include/F2837xD_analogsubsys.h
 src/main_cpu02.obj: /home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/headers/include/F2837xD_cla.h
@@ -81,8 +81,8 @@ src/main_cpu02.obj: /home/ismail/ti/C2000Ware_5_02_00_00/libraries/flash_api/f28
 src/main_cpu02.obj: /home/ismail/ti/C2000Ware_5_02_00_00/libraries/flash_api/f2837xd/include/Constants/Constants.h
 src/main_cpu02.obj: /home/ismail/ti/C2000Ware_5_02_00_00/libraries/flash_api/f2837xd/include/Constants/F2837xD.h
 src/main_cpu02.obj: /home/ismail/IOT-CAN-Bus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_CPU2/headers/flash_programming_c28.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/string.h
-src/main_cpu02.obj: /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/xlocale/_string.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/string.h
+src/main_cpu02.obj: /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/xlocale/_string.h
 src/main_cpu02.obj: /home/ismail/IOT-CAN-Bus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_CPU2/headers/flash_programming_c28.h
 src/main_cpu02.obj: /home/ismail/IOT-CAN-Bus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_CPU2/headers/config.h
 
@@ -94,33 +94,33 @@ src/main_cpu02.obj: /home/ismail/IOT-CAN-Bus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_
 
 /home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/headers/include/F2837xD_device.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/assert.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/assert.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/_ti_config.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/_ti_config.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/linkage.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/linkage.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stdarg.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stdarg.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/_types.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/_types.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/cdefs.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/cdefs.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/machine/_types.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/machine/_types.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stdbool.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stdbool.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stddef.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stddef.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stdint.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/stdint.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/_stdint40.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/_stdint40.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/stdint.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/stdint.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/machine/_stdint.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/machine/_stdint.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/_stdint.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/sys/_stdint.h:
 
 /home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/headers/include/F2837xD_adc.h:
 
@@ -248,9 +248,9 @@ src/main_cpu02.obj: /home/ismail/IOT-CAN-Bus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_
 
 /home/ismail/IOT-CAN-Bus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_CPU2/headers/flash_programming_c28.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/string.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/string.h:
 
-/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/xlocale/_string.h:
+/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include/xlocale/_string.h:
 
 /home/ismail/IOT-CAN-Bus/TI/FLASH_BANK_0/SCI_CAN_Interfaces_CPU2/headers/flash_programming_c28.h:
 

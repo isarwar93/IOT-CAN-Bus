@@ -8,6 +8,7 @@ C_SRCS += \
 ../src/F2837xD_GlobalVariableDefs.c \
 ../src/F2837xD_Gpio.c \
 ../src/F2837xD_Ipc.c \
+../src/F2837xD_Ipc_Driver.c \
 ../src/F2837xD_Ipc_Driver_Util.c \
 ../src/F2837xD_PieCtrl.c \
 ../src/F2837xD_PieVect.c \
@@ -26,6 +27,7 @@ C_DEPS += \
 ./src/F2837xD_GlobalVariableDefs.d \
 ./src/F2837xD_Gpio.d \
 ./src/F2837xD_Ipc.d \
+./src/F2837xD_Ipc_Driver.d \
 ./src/F2837xD_Ipc_Driver_Util.d \
 ./src/F2837xD_PieCtrl.d \
 ./src/F2837xD_PieVect.d \
@@ -44,6 +46,7 @@ OBJS += \
 ./src/F2837xD_GlobalVariableDefs.obj \
 ./src/F2837xD_Gpio.obj \
 ./src/F2837xD_Ipc.obj \
+./src/F2837xD_Ipc_Driver.obj \
 ./src/F2837xD_Ipc_Driver_Util.obj \
 ./src/F2837xD_PieCtrl.obj \
 ./src/F2837xD_PieVect.obj \
@@ -62,6 +65,7 @@ OBJS__QUOTED += \
 "src/F2837xD_GlobalVariableDefs.obj" \
 "src/F2837xD_Gpio.obj" \
 "src/F2837xD_Ipc.obj" \
+"src/F2837xD_Ipc_Driver.obj" \
 "src/F2837xD_Ipc_Driver_Util.obj" \
 "src/F2837xD_PieCtrl.obj" \
 "src/F2837xD_PieVect.obj" \
@@ -80,6 +84,7 @@ C_DEPS__QUOTED += \
 "src/F2837xD_GlobalVariableDefs.d" \
 "src/F2837xD_Gpio.d" \
 "src/F2837xD_Ipc.d" \
+"src/F2837xD_Ipc_Driver.d" \
 "src/F2837xD_Ipc_Driver_Util.d" \
 "src/F2837xD_PieCtrl.d" \
 "src/F2837xD_PieVect.d" \
@@ -98,6 +103,7 @@ C_SRCS__QUOTED += \
 "../src/F2837xD_GlobalVariableDefs.c" \
 "../src/F2837xD_Gpio.c" \
 "../src/F2837xD_Ipc.c" \
+"../src/F2837xD_Ipc_Driver.c" \
 "../src/F2837xD_Ipc_Driver_Util.c" \
 "../src/F2837xD_PieCtrl.c" \
 "../src/F2837xD_PieVect.c" \

@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Export-Package: com.github.eclipsecolortheme,com.github.eclipsecolorth
+ eme.mapper,com.github.eclipsecolortheme.preferences
+Bundle-ActivationPolicy: lazy
+Built-By: fhd
+Bundle-Name: Eclipse Color Theme
+Created-By: Apache Maven
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime,org.eclipse.ui
+ .forms
+Build-Jdk: 1.7.0_45
+Bundle-Version: 1.0.0.201410260308
+Bundle-ManifestVersion: 2
+Bundle-Activator: com.github.eclipsecolortheme.Activator
+Bundle-SymbolicName: com.github.eclipsecolortheme;singleton:=true
+Archiver-Version: Plexus Archiver
+

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+ <colorTheme author="Ismail" id="11" name="Dark+ (VSCode)">
+     <foreground color="#569CD6"/> <!-- General text color (light gray) -->
+     <background color="#1E1E1E"/> <!-- Editor background (dark gray/black) -->
+     <selectionForeground color="#cfe8d5"/> <!-- Selection text color (light mint) -->
+     <selectionBackground color="#686968"/> <!-- Highlighted selection background (transparent light blue) -->
+     <currentLine color="#2A2A2A"/> <!-- Current line background (dark gray) -->
+     <lineNumber color="#858585"/> <!-- Line numbers color (medium gray) -->
+     <searchResultIndication color="#686968"/> <!-- Search result highlight (dark gray) -->
+     <filteredSearchResultIndication color="#686968"/> <!-- Filtered search highlight (dark gray) -->
+     <occurrenceIndication color="#686968"/> <!-- Occurrence highlight (dark gray) -->
+     <writeOccurrenceIndication color="#686968"/> <!-- Write occurrence highlight (dark gray) -->
+     <findScope color="#515C6A"/> <!-- Find highlight (bluish gray) -->
+     <sourceHoverBackground color="#3E3E42"/> <!-- Source hover background (dark bluish-gray) -->
+     
+     <!-- Comments -->
+     <singleLineComment color="#6A9955" bold="false" italic="true"/> <!-- Single-line comments (green, italic) -->
+     <multiLineComment color="#6A9955" bold="false" italic="true"/> <!-- Multi-line comments (green, italic) -->
+ 
+     <!-- C Language Specific -->
+     <preprocessor color="#c771c0"/> <!-- Preprocessor commands (red) -->
+     <macro color="#569CD6"/> <!-- Values of #define macros (cyan) -->
+     <keyword color="#ba6ab4"/> <!-- Keywords (e.g., return, if, else) (purple) -->
+     <typedef color="#569CD6"/> <!-- Typedefs (blue) -->
+     <method color="#DCDCAA"/> <!-- Functions (light yellow) -->
+     <inheritedMethod color="#DCDCAA"/> <!-- Functions (light yellow) -->
+     <abstractMethod color="#DCDCAA"/> <!-- Functions (light yellow) -->
+     <staticMethod color="#DCDCAA"/> <!-- Functions (light yellow) -->
+     <methodDeclaration color="#DCDCAA"/> <!-- Function declarations (blue) -->
+     <variable color="#9CDCFE"/> <!-- Local variables (light blue) -->
+     <localVariable color="#D16969"/> <!-- Local variables (red) -->
+     <field color="#9CDCFE"/> <!-- Global variables (light blue) -->
+     <number color="#B5CEA8"/> <!-- Numbers (light green) -->
+     <string color="#CE9178"/> <!-- Strings (light brown) -->
+     <operator color="#D4D4D4"/> <!-- Operators (e.g., +, -, *, /) (light gray) -->
+     <type color="#4EC9B0"/> <!-- Types (e.g., int, float) (cyan) -->
+     
+     <!-- Function Arguments -->
+     <parameterVariable color="#9CDCFE"/> <!-- Function parameters (light blue) -->
+ 
+     <!-- Classes, Structs, Enums -->
+     <class color="#4EC9B0"/> <!-- Classes (cyan) -->
+     <struct color="#569CD6"/> <!-- Structs (cyan) -->
+     <enum color="#569CD6"/> <!-- Enums (light green) -->
+ 
+     <!-- Punctuation and Symbols -->
+     <bracket color="#D4D4D4"/> <!-- Brackets (light gray) -->
+     <delimiter color="#D4D4D4"/> <!-- Commas, periods, etc. (light gray) -->
+ 
+     <!-- Error/Warning Highlighting -->
+     <error color="#F44747"/> <!-- Syntax errors (red) -->
+     <warning color="#FFCC00"/> <!-- Warnings (yellow) -->
+     
+     <!-- Other Configurations -->
+     <selectionBorder color="#515C6A"/> <!-- Selection border (bluish gray) -->
+ </colorTheme>

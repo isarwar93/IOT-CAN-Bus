@@ -62,6 +62,8 @@
 #include "Shared_Verify.h"
 #include "F2837xD_dcsm.h"
 
+#include "config.h"
+
 //
 //Defines
 //
@@ -209,9 +211,9 @@ Uint32 SCI_GetFunction(void)
     int i = 0;
     for(i=0;i < 15;i++)
     {
-        GPIO_WritePin(31, 0);
+        GPIO_WritePin(BLUE_LED, 0);
         DELAY_US(1000*50);
-        GPIO_WritePin(31, 1);
+        GPIO_WritePin(BLUE_LED, 1);
         DELAY_US(1000*50);
     }
     // Initialize the SCI-b port for communications

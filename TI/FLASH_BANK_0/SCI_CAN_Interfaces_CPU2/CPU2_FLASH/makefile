@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-CG_TOOL_ROOT := /home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS
+CG_TOOL_ROOT := /home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
@@ -14,6 +14,7 @@ ORDERED_OBJS += \
 "./src/F2837xD_GlobalVariableDefs.obj" \
 "./src/F2837xD_Gpio.obj" \
 "./src/F2837xD_Ipc.obj" \
+"./src/F2837xD_Ipc_Driver.obj" \
 "./src/F2837xD_Ipc_Driver_Util.obj" \
 "./src/F2837xD_PieCtrl.obj" \
 "./src/F2837xD_PieVect.obj" \
@@ -159,15 +160,15 @@ all: SCI_CAN_Interfaces_CPU2.out
 SCI_CAN_Interfaces_CPU2.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: C2000 Linker'
-	"/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/bin/cl2000" -v28 -ml -mt --cla_support=cla1 --float_support=fpu32 --tmu_support=tmu0 --vcu_support=vcu2 --advice:performance=all --define=_DUAL_HEADERS --define=_LAUNCHXL_F28379D --define=_STANDALONE --define=CPU2 --define=_FLASH -g --diag_warning=225 --display_error_number --abi=coffabi -z -m"SCI_CAN_Interfaces_CPU2.map" --heap_size=0x400 --stack_size=0x3F8 --warn_sections -i"/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/lib" -i"/home/ismail/ti/ccs1271/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include" -i"/home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/common/cmd" -i"/home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/headers/cmd" --reread_libs --display_error_number --xml_link_info="SCI_CAN_Interfaces_CPU2_linkInfo.xml" --rom_model -o "SCI_CAN_Interfaces_CPU2.out" $(ORDERED_OBJS)
+	"/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/bin/cl2000" -v28 -ml -mt --cla_support=cla1 --float_support=fpu32 --tmu_support=tmu0 --vcu_support=vcu2 --advice:performance=all --define=_DUAL_HEADERS --define=_LAUNCHXL_F28379D --define=_STANDALONE --define=CPU2 --define=_FLASH -g --diag_warning=225 --display_error_number --abi=coffabi -z -m"SCI_CAN_Interfaces_CPU2.map" --heap_size=0x400 --stack_size=0x3F8 --warn_sections -i"/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/lib" -i"/home/ismail/ti/ccs1281/ccs/tools/compiler/ti-cgt-c2000_22.6.1.LTS/include" -i"/home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/common/cmd" -i"/home/ismail/ti/C2000Ware_5_02_00_00/device_support/f2837xd/headers/cmd" --reread_libs --display_error_number --xml_link_info="SCI_CAN_Interfaces_CPU2_linkInfo.xml" --rom_model -o "SCI_CAN_Interfaces_CPU2.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "assembly/F2837xD_usDelay.obj" "assembly/fwupgradec2_start.obj" "src/F2837xD_DefaultISR.obj" "src/F2837xD_GlobalVariableDefs.obj" "src/F2837xD_Gpio.obj" "src/F2837xD_Ipc.obj" "src/F2837xD_Ipc_Driver_Util.obj" "src/F2837xD_PieCtrl.obj" "src/F2837xD_PieVect.obj" "src/F2837xD_SysCtrl.obj" "src/Fapi_UserDefinedFunctions.obj" "src/SCI_Boot.obj" "src/SCI_GetFunction.obj" "src/Shared_Boot.obj" "src/Shared_Erase.obj" "src/Shared_Verify.obj" "src/config.obj" "src/main_cpu02.obj" 
-	-$(RM) "src/F2837xD_DefaultISR.d" "src/F2837xD_GlobalVariableDefs.d" "src/F2837xD_Gpio.d" "src/F2837xD_Ipc.d" "src/F2837xD_Ipc_Driver_Util.d" "src/F2837xD_PieCtrl.d" "src/F2837xD_PieVect.d" "src/F2837xD_SysCtrl.d" "src/Fapi_UserDefinedFunctions.d" "src/SCI_Boot.d" "src/SCI_GetFunction.d" "src/Shared_Boot.d" "src/Shared_Erase.d" "src/Shared_Verify.d" "src/config.d" "src/main_cpu02.d" 
+	-$(RM) "assembly/F2837xD_usDelay.obj" "assembly/fwupgradec2_start.obj" "src/F2837xD_DefaultISR.obj" "src/F2837xD_GlobalVariableDefs.obj" "src/F2837xD_Gpio.obj" "src/F2837xD_Ipc.obj" "src/F2837xD_Ipc_Driver.obj" "src/F2837xD_Ipc_Driver_Util.obj" "src/F2837xD_PieCtrl.obj" "src/F2837xD_PieVect.obj" "src/F2837xD_SysCtrl.obj" "src/Fapi_UserDefinedFunctions.obj" "src/SCI_Boot.obj" "src/SCI_GetFunction.obj" "src/Shared_Boot.obj" "src/Shared_Erase.obj" "src/Shared_Verify.obj" "src/config.obj" "src/main_cpu02.obj" 
+	-$(RM) "src/F2837xD_DefaultISR.d" "src/F2837xD_GlobalVariableDefs.d" "src/F2837xD_Gpio.d" "src/F2837xD_Ipc.d" "src/F2837xD_Ipc_Driver.d" "src/F2837xD_Ipc_Driver_Util.d" "src/F2837xD_PieCtrl.d" "src/F2837xD_PieVect.d" "src/F2837xD_SysCtrl.d" "src/Fapi_UserDefinedFunctions.d" "src/SCI_Boot.d" "src/SCI_GetFunction.d" "src/Shared_Boot.d" "src/Shared_Erase.d" "src/Shared_Verify.d" "src/config.d" "src/main_cpu02.d" 
 	-$(RM) "assembly/F2837xD_usDelay.d" "assembly/fwupgradec2_start.d" 
 	-@echo 'Finished clean'
 	-@echo ' '

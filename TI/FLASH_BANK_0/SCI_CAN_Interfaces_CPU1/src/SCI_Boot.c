@@ -73,7 +73,6 @@
 
 //
 // Globals
-//
 typedef struct
 {
    Uint16 status;
@@ -101,21 +100,16 @@ void Assign_SCIB_IO_CPU2(Uint32 BootMode);
 //            It will return a entry point address back
 //            to the InitBoot routine which in turn calls
 //            the ExitBoot routine.
-//
 Uint32 SCI_Boot(Uint32 BootMode)
 {
     statusCode.status = NO_ERROR;
     statusCode.address = 0x12346578;
 
     Uint32 EntryAddr;
-
-    //
     // Assign GetWordData to the SCI-A version of the
     // function. GetWordData is a pointer to a function.
-    //
     GetWordData = SCIB_GetWordData;
 
-    //
     // If the KeyValue was invalid, abort the load
     // and return the flash entry point.
     //
@@ -124,7 +118,6 @@ Uint32 SCI_Boot(Uint32 BootMode)
         statusCode.status = VERIFY_ERROR;
         statusCode.address = FLASH_ENTRY_POINT;
     }
-
     ReadReservedFn(); //reads and discards 8 reserved words
 
     EntryAddr = GetLongData();
@@ -138,31 +131,18 @@ Uint32 SCI_Boot(Uint32 BootMode)
     return EntryAddr;
 }
 
-//
 // Boot_CPU2 - Boot up CPU2
-//
 void Boot_CPU2(Uint32 BootMode)
 {
-    //
     // Leave control over flash pump
-    //
     ReleaseFlashPump();
 
-//    int i=0;
-//    for(i=0;i < 5;i++)
-//       {
-//        GPIO_WritePin(34, 0);
-           //GPIO_WritePin(34, 1);
-          // for(az = 0; az < 32676; az++){}
-       //}
     EALLOW;
     while(1)
     {
         uint32_t bootStatus = IPCGetBootStatus() & 0x0000000F;
 
-        //
         // if CPU2 is already booted, then fail
-        //
         if (bootStatus == C2_BOOTROM_BOOTSTS_SYSTEM_READY)
         {
             break;
@@ -172,10 +152,7 @@ void Boot_CPU2(Uint32 BootMode)
             Example_Error(Fapi_Error_Fail);
         }
     }
-//    GPIO_WritePin(34, 1);
-    //
     // Loop until CPU02 control system IPC flags 1 and 32 are available
-    //
     while(IPCLtoRFlagBusy(IPC_FLAG0) | IPCLtoRFlagBusy(IPC_FLAG31)){}
 
     CpuSysRegs.PCLKCR7.bit.SCI_B = 1;
@@ -187,65 +164,35 @@ void Boot_CPU2(Uint32 BootMode)
     CpuSysRegs.PCLKCR7.bit.SCI_B = 0;
     DevCfgRegs.SOFTPRES7.bit.SCI_B = 0;
 
-//    GPIO_WritePin(34, 0);
+
     Assign_SCIB_IO_CPU2(BootMode);
     assignSharedRAMstoCPU2();
 
-    //
     // CPU1 to CPU2 IPC Boot Mode Register
-
-//    IpcRegs.IPCBOOTMODE = C1C2_BROM_BOOTMODE_BOOT_FROM_SCI;
-    //Self changed: ismail_08-09-2024
-//       IpcRegs.IPCBOOTMODE = C1C2_BROM_BOOTMODE_BOOT_FROM_RAM;
-       //Self changed: ismail_08-09-2024
     IpcRegs.IPCBOOTMODE = C1C2_BROM_BOOTMODE_BOOT_FROM_FLASH;
 
-    //
     // CPU1 to CPU2 IPC Command Register
-    //
     IpcRegs.IPCSENDCOM = C1C2_BROM_IPC_EXECUTE_BOOTMODE_CMD;
 
     IpcRegs.IPCSET.all = 0x80000001; //(CPU1 to CPU2 IPC flag register)
     EDIS;
 
-//    GPIO_WritePin(34, 1);
-//    for(int i=0;i < 50;i++)
-//        {
-//            GPIO_WritePin(34, 0);
-//            for(uint32_t az = 0; az < 320676; az++){asm volatile(" nop ");}
-//            GPIO_WritePin(34, 1);
-//            for(uint32_t az = 0; az < 320676; az++){asm volatile(" nop ");}
-//
-//       }
     EALLOW;
     while(IpcRegs.IPCSTS.bit.IPC5 != 1)
     {
-        //
         //continues until CPU2 application is finished
-        //
     }
 
     IpcRegs.IPCACK.bit.IPC5 = 1; //clearing the acknowledgement flag
     EDIS;
-
-//    for(int i=0;i < 100;i++)
-//    {
-//        GPIO_WritePin(34, 1);
-//        for(uint32_t az = 0; az < 320676; az++){asm volatile(" nop ");}
-//        GPIO_WritePin(34, 0);
-//        for(uint32_t az = 0; az < 320676; az++){asm volatile(" nop ");}
-//
-//   }
 }
 
 //
-// Assign_SCIA_IO_CPU2 - Assign SCIA module to CPU2 control
-//
+// Assign_SCIB_IO_CPU2 - Assign SCIB module to CPU2 control
 void Assign_SCIB_IO_CPU2(Uint32 BootMode)
 {
     EALLOW;
-//    DevCfgRegs.CPUSEL5.bit.SCI_B = 1;    //SCIA connected to CPU2
-    DevCfgRegs.CPUSEL5.bit.SCI_B = 1;    //SCIA connected to CPU2
+    DevCfgRegs.CPUSEL5.bit.SCI_B = 1;    //SCIB connected to CPU2
     ClkCfgRegs.CLKSEM.all = 0xA5A50000;  //Allows CPU2 bootrom to take control
                                          //of clock configuration registers
     ClkCfgRegs.LOSPCP.all = 0x0007;
@@ -258,13 +205,10 @@ void Assign_SCIB_IO_CPU2(Uint32 BootMode)
          GPIO_SetupPinMux(19,GPIO_MUX_CPU2,2);
 
     }
-
     EDIS;
 }
 
-//
 // assignSharedRAMstoCPU2 - Assign shared RAM GS2/GS3 to CPU2
-//
 void assignSharedRAMstoCPU2(void)
 {
     EALLOW;
@@ -272,7 +216,3 @@ void assignSharedRAMstoCPU2(void)
     MemCfgRegs.GSxMSEL.bit.MSEL_GS3 = 1;
     EDIS;
 }
-
-//
-// End of file
-//
