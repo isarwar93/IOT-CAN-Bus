@@ -11,11 +11,10 @@ ser = serial.Serial('/dev/ttyUSB1', 115200, timeout=8)
 
 bytesArray = bytearray(8)
 bytesArray[0] = 0xf0#0xf0
-#1f -> information, 3f-> Change bank, 4f-> cpu comm
-bytesArray[1] = 0x4f#0x0f#0x1f#0x3f#0x4f
+#1f -> information, 3f-> Change bank, 4f-> cpu2 comm, 5f->bytes comm cpu2
+bytesArray[1] = 0x6f#0x0f#0x1f#0x3f#0x4f
 for j in range(2,8):
-     # bytesArray[j] = 0x0f#For flashing
-     bytesArray[j] = j#0x0f#0x1f#0x3f#0x4f
+     bytesArray[j] = 0x03#For flashing# for other cases doesnot matter
 
 print("Byte sent:")
 print(bytesArray)

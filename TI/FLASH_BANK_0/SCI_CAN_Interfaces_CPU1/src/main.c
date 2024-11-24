@@ -78,7 +78,9 @@ void Example_Error(Fapi_StatusType status);
 void Init_Flash_Sectors(void);
 extern Uint32 SCI_GetFunction(Uint32  BootMode);
 
-
+// To get data from CPU2
+#define CPU01TOCPU02_PASSMSG  0x0003FFF4     // CPU01 to CPU02 MSG RAM offsets
+                                             // for passing address
 
 //
 // Defines
@@ -225,6 +227,8 @@ uint32_t main(void)
     uint16_t *pusCPU02BufferPt;
     uint32_t *pulMsgRam ;
 
+    uint32_t *pulMsgRamIn;
+
     // Step 1. Initialize System Control:
     // Enable Peripheral Clocks
     // This example function is found in the F2837xD_SysCtrl.c file.
@@ -335,6 +339,50 @@ uint32_t main(void)
     EINT;   // Enable Global interrupt INTM
     ERTM;   // Enable Global realtime interrupt DBGM
 
+
+    // *******To get data from CPU2*************
+    ErrorFlag = 0;
+//      FnCallStatus = 0;
+      usWWord16 = 0;
+      ulWWord32 = 0;
+      for(counter = 0; counter < 256; counter++)
+      {
+          usCPU01Buffer[counter] = 0;
+      }
+
+  //
+  // Point array to address in CPU02 TO CPU01 MSGRAM for passing
+  // variable locations
+  //
+      pulMsgRamIn = (void *)CPU01TOCPU02_PASSMSG;
+
+  //
+  // Write addresses of variables where words should be written to pulMsgRam
+  // array.
+  // 0 = Address of 16-bit word to write to.
+  // 1 = Address of 32-bit word to write to.
+  // 2 = Address of buffer to block write to.
+  // 3 = Address of FunctionCall() function to call.
+  // 4 = Address of FunctionCallParam() function to call.
+  // 5 = Address of 32-bit FnCallStatus variable to check function call
+  // executed
+  //
+      pulMsgRamIn[0] = (uint32_t)&usWWord16;
+      pulMsgRamIn[1] = (uint32_t)&ulWWord32;
+      pulMsgRamIn[2] = (uint32_t)&usCPU01Buffer[0];
+//      pulMsgRam[3] = (uint32_t)&FunctionCall;
+//      pulMsgRam[4] = (uint32_t)&FunctionCallParam;
+//      pulMsgRam[5] = (uint32_t)&FnCallStatus;
+
+  //
+  // Flag to CPU01 that the variables are ready in MSG RAM with CPU02 TO
+  // CPU01 IPC Flag 17
+  //
+      IpcRegs.IPCSET.bit.IPC17 = 1;
+      // *******-------------------*************
+
+
+
     while(true)
     {
         end_time = GetElapsedTime();     // Get the time after execution
@@ -405,14 +453,14 @@ uint32_t main(void)
             else if (Receive_SCI_Buf[1] == 0x4f)
             {
 
-                for(i=0;i < 5;i++)
-                {
-                    GPIO_WritePin(BLUE_LED, 0);
-                    DELAY_US(1000*30);
-                    GPIO_WritePin(BLUE_LED, 1);
-                    DELAY_US(1000*505);
-
-                }
+//                for(i=0;i < 5;i++)
+//                {
+//                    GPIO_WritePin(BLUE_LED, 0);
+//                    DELAY_US(1000*30);
+//                    GPIO_WritePin(BLUE_LED, 1);
+//                    DELAY_US(1000*505);
+//
+//                }
                 // Data Block Writes
 
                 // Request Memory Access to GS0 SARAM for CPU01
@@ -425,14 +473,16 @@ uint32_t main(void)
                 }
                 // Write a block of data from CPU01 to GS0 shared RAM which is then written to
                 // an CPU02 address
-                for(counter = 0; counter < 256; counter++)
-                {
-                    pusCPU01BufferPt[counter] = usCPU01Buffer[counter];
-                }
+//                for(counter = 0; counter < 256; counter++)
+//                {
+//                    pusCPU01BufferPt[counter] = usCPU01Buffer[counter];
+//                }
+
                 for(counter = 0; counter < 10; counter++)
                 {
                     pusCPU01BufferPt[counter] = Receive_SCI_Buf[counter];
                 }
+//                pusCPU01BufferPt[3] = 0xeb;
 
 //                for(i=0;i < 5;i++)
 //                {
@@ -445,6 +495,11 @@ uint32_t main(void)
                 IPCLtoRBlockWrite(&g_sIpcController2, pulMsgRam[2],
                                   (uint32_t)pusCPU01BufferPt, 256,
                                   IPC_LENGTH_16_BITS,ENABLE_BLOCKING);
+
+                // Self added
+                // Flag to CPU01 that the variables are ready in MSG RAM with CPU02 TO
+                // CPU01 IPC Flag 17
+//                IpcRegs.IPCSET.bit.IPC17 = 1;
 
                 // Give Memory Access to GS0 SARAM to CPU02
                 while(!(MemCfgRegs.GSxMSEL.bit.MSEL_GS0))
@@ -480,6 +535,130 @@ uint32_t main(void)
 
                GPIO_SetupPinMux(RED_LED, GPIO_MUX_CPU2, 0);
                GPIO_SetupPinOptions(RED_LED, GPIO_OUTPUT, GPIO_PUSHPULL);
+            }
+            else if(Receive_SCI_Buf[1] == 0x5f)
+            {
+                //
+                   // Initialize local variables
+                   //
+                       pulMsgRam = (void *)CPU02TOCPU01_PASSMSG;
+                       pusCPU01BufferPt = (void *)GS0SARAM_START;
+                       pusCPU02BufferPt = (void *)(GS0SARAM_START + 256);
+                       ErrorCount = 0;
+
+                   //
+                   // Initialize all variables used in example.
+                   //
+                       for(counter = 0; counter < 256; counter++)
+                       {
+                           usCPU01Buffer[counter] = ((counter<<8)+(~counter));
+                       }
+
+//                       usWWord16 = 0x1234;
+                       usWWord16 = Receive_SCI_Buf[2];
+                       ulWWord32 = 0xABCD5678;
+                       usRWord16 = 0;
+                       ulRWord32 = 0;
+
+                   //
+                   // Spin here until CPU02 has written variable addresses to pulMsgRam
+                   //
+//                       while(IpcRegs.IPCSTS.bit.IPC17 != 1)
+//                       {
+//                       }
+//                       IpcRegs.IPCACK.bit.IPC17 = 1;
+
+                   //
+                   // 16 and 32-bit Data Writes
+                   // Write 16-bit word to CPU02 16-bit write word variable.
+                   //
+                       IPCLtoRDataWrite(&g_sIpcController1, pulMsgRam[0],(uint32_t)usWWord16,
+                                        IPC_LENGTH_16_BITS, ENABLE_BLOCKING,NO_FLAG);
+
+                   //
+                   // Read 16-bit word from CPU02 16-bit write word variable. Use IPC Flag 17 to
+                   // check when read data is ready.
+                   //
+                       IPCLtoRDataRead(&g_sIpcController1, pulMsgRam[0], &usRWord16,
+                                       IPC_LENGTH_16_BITS, ENABLE_BLOCKING,
+                                       IPC_FLAG17);
+
+//                   //
+//                   // Write 32-bit word to CPU02 32-bit write word variable.
+//                   //
+//                       IPCLtoRDataWrite(&g_sIpcController1, pulMsgRam[1],ulWWord32,
+//                                        IPC_LENGTH_32_BITS, ENABLE_BLOCKING,
+//                                        NO_FLAG);
+//
+//                   //
+//                   // Read 32-bit word from CPU02 32-bit write word variable. Use IPC Flag 18 to
+//                   // check when read data is ready.
+//                   //
+//                       IPCLtoRDataRead(&g_sIpcController1, pulMsgRam[1], &ulRWord32,
+//                                       IPC_LENGTH_32_BITS, ENABLE_BLOCKING,
+//                                       IPC_FLAG18);
+//
+//                   //
+//                   // Wait until read variables are ready (by checking IPC Response Flag is
+//                   // cleared). Then check Read var = Write var
+//                   //
+//                       while(IpcRegs.IPCFLG.bit.IPC17)
+//                       {
+//                       }
+//
+//                       if(usWWord16 != usRWord16)
+//                       {
+//                           ErrorCount++;
+//                       }
+
+//                       while(IpcRegs.IPCFLG.bit.IPC18)
+//                       {
+//                       }
+//
+//                       if(ulWWord32 != ulRWord32)
+//                       {
+//                           ErrorCount++;
+//                       }
+            }
+            else if(Receive_SCI_Buf[1] == 0x6f)
+            {
+
+                // Initialize local variables
+                pulMsgRam = (void *)CPU02TOCPU01_PASSMSG;
+                pusCPU01BufferPt = (void *)GS0SARAM_START;
+                pusCPU02BufferPt = (void *)(GS0SARAM_START + 256);
+                ErrorCount = 0;
+
+                 //
+                 // Initialize all variables used in example.
+                 //
+                for(counter = 0; counter < 256; counter++)
+                {
+                    usCPU01Buffer[counter] = ((counter<<8)+(~counter));
+                }
+
+                // usWWord16 = 0x1234;
+                usWWord16 = 10;
+
+                //
+                // Spin here until CPU02 has written variable addresses to pulMsgRam
+                //
+                //  while(IpcRegs.IPCSTS.bit.IPC17 != 1)
+                //  {
+                //  }
+                //  IpcRegs.IPCACK.bit.IPC17 = 1;
+
+                //
+                // 16 and 32-bit Data Writes
+                // Write 16-bit word to CPU02 16-bit write word variable.
+                 IPCLtoRDataWrite(&g_sIpcController1, pulMsgRam[0],(uint32_t)usWWord16,
+                                  IPC_LENGTH_16_BITS, ENABLE_BLOCKING,NO_FLAG);
+
+
+                 DELAY_US(1000*3000);
+
+                 memcpy(Send_SCI_Buf,pusCPU02BufferPt,10);
+
             }
             memset(Receive_SCI_Buf,0,20);
         }
@@ -635,6 +814,38 @@ __interrupt void CPU02toCPU01IPC0IntHandler (void)
 //
 __interrupt void CPU02toCPU01IPC1IntHandler (void)
 {
+
+    tIpcMessage sMessage;
+
+    //
+    // Continue processing messages as long as CPU02toCPU01 GetBuffer2 is full
+    //
+    while(IpcGet(&g_sIpcController2, &sMessage,
+                 DISABLE_BLOCKING)!= STATUS_FAIL)
+    {
+        switch (sMessage.ulcommand)
+        {
+            case IPC_SET_BITS_PROTECTED:
+                IPCRtoLSetBits_Protected(&sMessage);       // Processes
+                                                           // IPCReqMemAccess()
+                                                           // function
+                break;
+            case IPC_CLEAR_BITS_PROTECTED:
+                IPCRtoLClearBits_Protected(&sMessage);     // Processes
+                                                           // IPCReqMemAccess()
+                                                           // function
+                break;
+            case IPC_BLOCK_WRITE:
+                IPCRtoLBlockWrite(&sMessage);
+                break;
+            case IPC_BLOCK_READ:
+                IPCRtoLBlockRead(&sMessage);
+                break;
+            default:
+                ErrorFlag = 1;
+                break;
+        }
+    }
     // Should never reach here - Placeholder for Debug
     // Acknowledge IPC INT1 Flag and PIE to receive more interrupts
     IpcRegs.IPCACK.bit.IPC1 = 1;

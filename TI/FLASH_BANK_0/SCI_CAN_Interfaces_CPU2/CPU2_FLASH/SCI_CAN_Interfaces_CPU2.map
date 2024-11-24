@@ -1,10 +1,10 @@
 ******************************************************************************
              TMS320C2000 Linker Unix v22.6.1                   
 ******************************************************************************
->> Linked Sat Oct 26 21:49:26 2024
+>> Linked Sun Nov 24 12:18:39 2024
 
 OUTPUT FILE NAME:   <SCI_CAN_Interfaces_CPU2.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 00082f92
+ENTRY POINT SYMBOL: "_c_int00"  address: 0008304f
 
 
 MEMORY CONFIGURATION
@@ -28,7 +28,7 @@ PAGE 0:
   RAMGS6                00012000   00001000  00000000  00001000  RWIX
   BEGIN                 00080000   00000002  00000002  00000000  RWIX
   FLASHA                00080002   00001ffe  00000000  00001ffe  RWIX
-  FLASHB                00082000   00002000  00001216  00000dea  RWIX
+  FLASHB                00082000   00002000  000012d3  00000d2d  RWIX
   FLASHC                00084000   00002000  00000000  00002000  RWIX
   FLASHD                00086000   00002000  000000d1  00001f2f  RWIX
   FLASHE                00088000   00008000  00000000  00008000  RWIX
@@ -123,7 +123,7 @@ PAGE 1:
   ADCD                  00007580   00000080  0000007c  00000004  RWIX
   DMACLASRCSEL          00007980   0000001a  0000001a  00000000  RWIX
   GPIODATA              00007f00   00000030  00000030  00000000  RWIX
-  RAMLS5                0000a800   00000800  00000144  000006bc  RWIX
+  RAMLS5                0000a800   00000800  00000148  000006b8  RWIX
   RAMD1                 0000b800   00000800  00000000  00000800  RWIX
   RAMGS0                0000c000   00001000  00000000  00001000  RWIX
   RAMGS1                0000d000   00001000  00000000  00001000  RWIX
@@ -169,39 +169,39 @@ codestart
 *          0    00080000    00000002     
                   00080000    00000002     fwupgradec2_start.obj (codestart)
 
-.text      0    00082000    000011fc     
+.text      0    00082000    000012b9     
                   00082000    00000585     F2837xD_DefaultISR.obj (.text:retain)
                   00082585    000003a9     F2837xD_Ipc_Driver.obj (.text)
                   0008292e    00000259     F021_API_F2837xD_FPU32.lib : FlashStateMachine.obj (.text:__Fapi_setupFlashStateMachine)
                   00082b87    00000256     F2837xD_SysCtrl.obj (.text)
-                  00082ddd    00000107     main_cpu02.obj (.text)
-                  00082ee4    000000ae     main_cpu02.obj (.text:retain)
-                  00082f92    00000056     rts2800_fpu32.lib : boot28.asm.obj (.text)
-                  00082fe8    00000035     F2837xD_Gpio.obj (.text)
-                  0008301d    00000034     F021_API_F2837xD_FPU32.lib : Init.obj (.text:_Fapi_initializeAPI)
-                  00083051    0000002e                                : Utilities.obj (.text:_Fapi_calculateFletcherChecksum)
-                  0008307f    0000002c                                : Utilities.obj (.text:__Fapi_divideUnsignedLong)
-                  000830ab    00000029     rts2800_fpu32.lib : exit.c.obj (.text)
-                  000830d4    00000028     F2837xD_PieCtrl.obj (.text)
-                  000830fc    00000026     F2837xD_PieVect.obj (.text)
-                  00083122    00000025     F021_API_F2837xD_FPU32.lib : FlashStateMachine.obj (.text:_Fapi_setActiveFlashBank)
-                  00083147    00000024     rts2800_fpu32.lib : cpy_tbl.c.obj (.text)
-                  0008316b    00000022     fwupgradec2_start.obj (.text)
-                  0008318d    0000001d     rts2800_fpu32.lib : memcpy.c.obj (.text)
-                  000831aa    00000018                       : ll_aox28.asm.obj (.text)
-                  000831c2    00000012                       : args_main.c.obj (.text)
-                  000831d4    0000000d     F021_API_F2837xD_FPU32.lib : Utilities.obj (.text:__Fapi_scaleCycleValues)
-                  000831e1    0000000b                                : Utilities.obj (.text:__Fapi_calculateOtpChecksum)
-                  000831ec    00000009     rts2800_fpu32.lib : _lock.c.obj (.text)
-                  000831f5    00000004     F2837xD_usDelay.obj (.text)
-                  000831f9    00000002     rts2800_fpu32.lib : pre_init.c.obj (.text)
-                  000831fb    00000001                       : startup.c.obj (.text)
+                  00082ddd    0000018e     main_cpu02.obj (.text)
+                  00082f6b    000000e4     main_cpu02.obj (.text:retain)
+                  0008304f    00000056     rts2800_fpu32.lib : boot28.asm.obj (.text)
+                  000830a5    00000035     F2837xD_Gpio.obj (.text)
+                  000830da    00000034     F021_API_F2837xD_FPU32.lib : Init.obj (.text:_Fapi_initializeAPI)
+                  0008310e    0000002e                                : Utilities.obj (.text:_Fapi_calculateFletcherChecksum)
+                  0008313c    0000002c                                : Utilities.obj (.text:__Fapi_divideUnsignedLong)
+                  00083168    00000029     rts2800_fpu32.lib : exit.c.obj (.text)
+                  00083191    00000028     F2837xD_PieCtrl.obj (.text)
+                  000831b9    00000026     F2837xD_PieVect.obj (.text)
+                  000831df    00000025     F021_API_F2837xD_FPU32.lib : FlashStateMachine.obj (.text:_Fapi_setActiveFlashBank)
+                  00083204    00000024     rts2800_fpu32.lib : cpy_tbl.c.obj (.text)
+                  00083228    00000022     fwupgradec2_start.obj (.text)
+                  0008324a    0000001d     rts2800_fpu32.lib : memcpy.c.obj (.text)
+                  00083267    00000018                       : ll_aox28.asm.obj (.text)
+                  0008327f    00000012                       : args_main.c.obj (.text)
+                  00083291    0000000d     F021_API_F2837xD_FPU32.lib : Utilities.obj (.text:__Fapi_scaleCycleValues)
+                  0008329e    0000000b                                : Utilities.obj (.text:__Fapi_calculateOtpChecksum)
+                  000832a9    00000009     rts2800_fpu32.lib : _lock.c.obj (.text)
+                  000832b2    00000004     F2837xD_usDelay.obj (.text)
+                  000832b6    00000002     rts2800_fpu32.lib : pre_init.c.obj (.text)
+                  000832b8    00000001                       : startup.c.obj (.text)
 
-.cinit     0    00083200    0000001a     
-                  00083200    0000000e     rts2800_fpu32.lib : exit.c.obj (.cinit)
-                  0008320e    00000005                       : _lock.c.obj (.cinit:__lock)
-                  00083213    00000005                       : _lock.c.obj (.cinit:__unlock)
-                  00083218    00000002     --HOLE-- [fill = 0]
+.cinit     0    000832c0    0000001a     
+                  000832c0    0000000e     rts2800_fpu32.lib : exit.c.obj (.cinit)
+                  000832ce    00000005                       : _lock.c.obj (.cinit:__lock)
+                  000832d3    00000005                       : _lock.c.obj (.cinit:__unlock)
+                  000832d8    00000002     --HOLE-- [fill = 0]
 
 .stack     1    00000400    000003f8     UNINITIALIZED
                   00000400    000003f8     --HOLE--
@@ -654,15 +654,15 @@ GETWRITEIDX
 PUTREADIDX 
 *          0    0003fc00    00000000     DSECT
 
-.ebss      1    0000a800    00000144     UNINITIALIZED
+.ebss      1    0000a800    00000148     UNINITIALIZED
                   0000a800    00000100     main_cpu02.obj (.ebss:_usCPU02Buffer)
-                  0000a900    00000022     main_cpu02.obj (.ebss)
-                  0000a922    0000000c     F021_API_F2837xD_FPU32.lib : Init.obj (.ebss)
-                  0000a92e    0000000a     SCI_GetFunction.obj (.ebss)
-                  0000a938    00000006     rts2800_fpu32.lib : exit.c.obj (.ebss)
-                  0000a93e    00000002     Shared_Boot.obj (.ebss)
-                  0000a940    00000002     rts2800_fpu32.lib : _lock.c.obj (.ebss:__lock)
-                  0000a942    00000002                       : _lock.c.obj (.ebss:__unlock)
+                  0000a900    00000026     main_cpu02.obj (.ebss)
+                  0000a926    0000000c     F021_API_F2837xD_FPU32.lib : Init.obj (.ebss)
+                  0000a932    0000000a     SCI_GetFunction.obj (.ebss)
+                  0000a93c    00000002     Shared_Boot.obj (.ebss)
+                  0000a93e    00000002     rts2800_fpu32.lib : _lock.c.obj (.ebss:__lock)
+                  0000a940    00000006                       : exit.c.obj (.ebss)
+                  0000a946    00000002                       : _lock.c.obj (.ebss:__unlock)
 
 MODULE SUMMARY
 
@@ -678,7 +678,7 @@ MODULE SUMMARY
        F2837xD_GlobalVariableDefs.obj   0      0                  8754              
        F2837xD_DefaultISR.obj           1413   0                  0                 
        F2837xD_Ipc_Driver.obj           937    0                  136               
-       main_cpu02.obj                   449    0                  290               
+       main_cpu02.obj                   638    0                  294               
        F2837xD_SysCtrl.obj              708    0                  0                 
        F2837xD_PieVect.obj              38     448                0                 
        Fapi_UserDefinedFunctions.obj    296    0                  0                 
@@ -687,7 +687,7 @@ MODULE SUMMARY
        SCI_GetFunction.obj              0      0                  10                
        Shared_Boot.obj                  0      0                  2                 
     +--+--------------------------------+------+------------------+--------------------+
-       Total:                           3934   448                9192              
+       Total:                           4123   448                9196              
                                                                                     
     ../F021_API_F2837xD_FPU32.lib
        FlashStateMachine.obj            638    0                  0                 
@@ -711,7 +711,7 @@ MODULE SUMMARY
                                                                                     
        Stack:                           0      0                  1016              
     +--+--------------------------------+------+------------------+--------------------+
-       Grand Total:                     5024   472                10230             
+       Grand Total:                     5213   472                10234             
 
 
 GLOBAL DATA SYMBOLS: SORTED BY DATA PAGE
@@ -859,20 +859,22 @@ address     data page           name
 
 0000a900     2a4 (0000a900)     _ErrorFlag
 0000a901     2a4 (0000a900)     _usWWord16
-0000a902     2a4 (0000a900)     _FnCallStatus
-0000a904     2a4 (0000a900)     _ulWWord32
-0000a906     2a4 (0000a900)     _g_sIpcController1
-0000a914     2a4 (0000a900)     _g_sIpcController2
-0000a922     2a4 (0000a900)     _Fapi_GlobalInit
-0000a92e     2a4 (0000a900)     _checksum
-0000a930     2a4 (0000a900)     _statusCode
-0000a938     2a4 (0000a900)     ___TI_enable_exit_profile_output
-0000a93a     2a4 (0000a900)     ___TI_cleanup_ptr
-0000a93c     2a4 (0000a900)     ___TI_dtors_ptr
-0000a93e     2a4 (0000a900)     _GetWordData
+0000a902     2a4 (0000a900)     _communication_flag
+0000a904     2a4 (0000a900)     _FnCallStatus
+0000a906     2a4 (0000a900)     _ulWWord32
+0000a908     2a4 (0000a900)     _global_counter
+0000a90a     2a4 (0000a900)     _g_sIpcController1
+0000a918     2a4 (0000a900)     _g_sIpcController2
+0000a926     2a4 (0000a900)     _Fapi_GlobalInit
+0000a932     2a4 (0000a900)     _checksum
+0000a934     2a4 (0000a900)     _statusCode
+0000a93c     2a4 (0000a900)     _GetWordData
+0000a93e     2a4 (0000a900)     __lock
 
-0000a940     2a5 (0000a940)     __lock
-0000a942     2a5 (0000a940)     __unlock
+0000a940     2a5 (0000a940)     ___TI_enable_exit_profile_output
+0000a942     2a5 (0000a940)     ___TI_cleanup_ptr
+0000a944     2a5 (0000a940)     ___TI_dtors_ptr
+0000a946     2a5 (0000a940)     __unlock
 
 0003f800     fe0 (0003f800)     _g_asIPCCPU2toCPU1Buffers
 
@@ -926,10 +928,10 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 page  address   name                            
 ----  -------   ----                            
 0     00082000  .text                           
-0     000830ab  C$$EXIT                         
-0     000831aa  LL$$AND                         
-0     000831b2  LL$$OR                          
-0     000831ba  LL$$XOR                         
+0     00083168  C$$EXIT                         
+0     00083267  LL$$AND                         
+0     0008326f  LL$$OR                          
+0     00083277  LL$$XOR                         
 0     000820be  _ADCA1_ISR                      
 0     0008233e  _ADCA2_ISR                      
 0     00082348  _ADCA3_ISR                      
@@ -977,8 +979,8 @@ page  address   name
 0     000823ca  _CLA1_8_ISR                     
 0     00082550  _CLA_OVERFLOW_ISR               
 0     0008255a  _CLA_UNDERFLOW_ISR              
-0     00082ee4  _CPU01toCPU02IPC0IntHandler     
-0     00082f42  _CPU01toCPU02IPC1IntHandler     
+0     00082f6b  _CPU01toCPU02IPC0IntHandler     
+0     00082feb  _CPU01toCPU02IPC1IntHandler     
 1     00048000  _CanaRegs                       
 1     0004a000  _CanbRegs                       
 1     00001400  _Cla1Regs                       
@@ -1084,32 +1086,32 @@ page  address   name
 1     00005180  _EQep3Regs                      
 1     0005f480  _Emif1ConfigRegs                
 1     00047000  _Emif1Regs                      
-0     000830f3  _EnableInterrupts               
-0     00082ec8  _Error                          
+0     000831b0  _EnableInterrupts               
+0     00082f58  _Error                          
 1     0000a900  _ErrorFlag                      
 0     000080cb  _Example_Error                  
-0     00083175  _ExitBoot                       
-0     000831f5  _F28x_usDelay                   
+0     00083232  _ExitBoot                       
+0     000832b2  _F28x_usDelay                   
 0     00082528  _FLASH_CORRECTABLE_ERROR_ISR    
 0     000823fc  _FPU_OVERFLOW_ISR               
 0     00082406  _FPU_UNDERFLOW_ISR              
-1     0000a922  _Fapi_GlobalInit                
-0     00083051  _Fapi_calculateFletcherChecksum 
-0     0008301d  _Fapi_initializeAPI             
+1     0000a926  _Fapi_GlobalInit                
+0     0008310e  _Fapi_calculateFletcherChecksum 
+0     000830da  _Fapi_initializeAPI             
 0     00008000  _Fapi_serviceWatchdogTimer      
-0     00083122  _Fapi_setActiveFlashBank        
+0     000831df  _Fapi_setActiveFlashBank        
 0     0000806a  _Fapi_setupBankSectorEnable     
 0     00008002  _Fapi_setupEepromSectorEnable   
 1     0005f800  _Flash0CtrlRegs                 
 1     0005fb00  _Flash0EccRegs                  
 0     000080bd  _FlashOff                       
 1     00050024  _FlashPumpSemaphoreRegs         
-1     0000a902  _FnCallStatus                   
-0     00082ebc  _FunctionCall                   
-0     00082ec1  _FunctionCallParam              
-0     00082fe8  _GPIO_ReadPin                   
-0     00082fff  _GPIO_WritePin                  
-1     0000a93e  _GetWordData                    
+1     0000a904  _FnCallStatus                   
+0     00082f4c  _FunctionCall                   
+0     00082f51  _FunctionCallParam              
+0     000830a5  _GPIO_ReadPin                   
+0     000830bc  _GPIO_WritePin                  
+1     0000a93c  _GetWordData                    
 1     00007f00  _GpioDataRegs                   
 0     00082dd7  _HALT                           
 0     00082dda  _HIB                            
@@ -1155,10 +1157,10 @@ page  address   name
 0     00082c5f  _InitAuxPll                     
 0     00008094  _InitFlash                      
 0     00082b98  _InitPeripheralClocks           
-0     000830d4  _InitPieCtrl                    
-0     000830fc  _InitPieVectTable               
+0     00083191  _InitPieCtrl                    
+0     000831b9  _InitPieVectTable               
 0     00082b87  _InitSysCtrl                    
-0     00082e99  _Init_Flash_Sectors             
+0     00082f29  _Init_Flash_Sectors             
 0     00082611  _IpcGet                         
 0     000825da  _IpcPut                         
 1     00050000  _IpcRegs                        
@@ -1247,55 +1249,57 @@ abs   000000d1  _RamfuncsRunSize
 0     000823de  _XINT4_ISR                      
 0     000823e8  _XINT5_ISR                      
 1     00007070  _XintRegs                       
-0     000831e1  __Fapi_calculateOtpChecksum     
-0     0008307f  __Fapi_divideUnsignedLong       
-0     000831d4  __Fapi_scaleCycleValues         
+0     0008329e  __Fapi_calculateOtpChecksum     
+0     0008313c  __Fapi_divideUnsignedLong       
+0     00083291  __Fapi_scaleCycleValues         
 1     000007f8  __STACK_END                     
 abs   000003f8  __STACK_SIZE                    
-1     0000a93a  ___TI_cleanup_ptr               
-1     0000a93c  ___TI_dtors_ptr                 
-1     0000a938  ___TI_enable_exit_profile_output
+1     0000a942  ___TI_cleanup_ptr               
+1     0000a944  ___TI_dtors_ptr                 
+1     0000a940  ___TI_enable_exit_profile_output
 abs   ffffffff  ___TI_pprof_out_hndl            
 abs   ffffffff  ___TI_prof_data_size            
 abs   ffffffff  ___TI_prof_data_start           
 abs   ffffffff  ___binit__                      
 abs   ffffffff  ___c_args__                     
-0     00083200  ___cinit__                      
-0     000831fc  ___etext__                      
+0     000832c0  ___cinit__                      
+0     000832b9  ___etext__                      
 abs   ffffffff  ___pinit__                      
 0     00082000  ___text__                       
-0     000831c2  __args_main                     
-1     0000a940  __lock                          
-0     000831f4  __nop                           
-0     000831f0  __register_lock                 
-0     000831ec  __register_unlock               
+0     0008327f  __args_main                     
+1     0000a93e  __lock                          
+0     000832b1  __nop                           
+0     000832ad  __register_lock                 
+0     000832a9  __register_unlock               
 1     00000400  __stack                         
-0     000831fb  __system_post_cinit             
-0     000831f9  __system_pre_init               
-1     0000a942  __unlock                        
-0     000830ab  _abort                          
-0     00082f92  _c_int00                        
-1     0000a92e  _checksum                       
-0     00083147  _copy_in                        
-0     000830ad  _exit                           
+0     000832b8  __system_post_cinit             
+0     000832b6  __system_pre_init               
+1     0000a946  __unlock                        
+0     00083168  _abort                          
+0     0008304f  _c_int00                        
+1     0000a932  _checksum                       
+1     0000a902  _communication_flag             
+0     00083204  _copy_in                        
+0     0008316a  _exit                           
 0     0003fc00  _g_asIPCCPU1toCPU2Buffers       
 1     0003f800  _g_asIPCCPU2toCPU1Buffers       
-1     0000a906  _g_sIpcController1              
-1     0000a914  _g_sIpcController2              
+1     0000a90a  _g_sIpcController1              
+1     0000a918  _g_sIpcController2              
 1     0003f884  _g_usGetReadIndexes             
 0     0003fc80  _g_usGetWriteIndexes            
 0     0003fc84  _g_usPutReadIndexes             
 1     0003f880  _g_usPutWriteIndexes            
+1     0000a908  _global_counter                 
 0     00082ddd  _main                           
-0     0008318d  _memcpy                         
-1     0000a930  _statusCode                     
-1     0000a904  _ulWWord32                      
+0     0008324a  _memcpy                         
+1     0000a934  _statusCode                     
+1     0000a906  _ulWWord32                      
 1     0000a800  _usCPU02Buffer                  
 1     0000a901  _usWWord16                      
 abs   ffffffff  binit                           
-0     00083200  cinit                           
+0     000832c0  cinit                           
 0     00080000  code_start                      
-0     000831fc  etext                           
+0     000832b9  etext                           
 abs   ffffffff  pinit                           
 
 
@@ -1507,44 +1511,44 @@ page  address   name
 0     00082dd7  _HALT                           
 0     00082dda  _HIB                            
 0     00082ddd  _main                           
-0     00082e99  _Init_Flash_Sectors             
-0     00082ebc  _FunctionCall                   
-0     00082ec1  _FunctionCallParam              
-0     00082ec8  _Error                          
-0     00082ee4  _CPU01toCPU02IPC0IntHandler     
-0     00082f42  _CPU01toCPU02IPC1IntHandler     
-0     00082f92  _c_int00                        
-0     00082fe8  _GPIO_ReadPin                   
-0     00082fff  _GPIO_WritePin                  
-0     0008301d  _Fapi_initializeAPI             
-0     00083051  _Fapi_calculateFletcherChecksum 
-0     0008307f  __Fapi_divideUnsignedLong       
-0     000830ab  C$$EXIT                         
-0     000830ab  _abort                          
-0     000830ad  _exit                           
-0     000830d4  _InitPieCtrl                    
-0     000830f3  _EnableInterrupts               
-0     000830fc  _InitPieVectTable               
-0     00083122  _Fapi_setActiveFlashBank        
-0     00083147  _copy_in                        
-0     00083175  _ExitBoot                       
-0     0008318d  _memcpy                         
-0     000831aa  LL$$AND                         
-0     000831b2  LL$$OR                          
-0     000831ba  LL$$XOR                         
-0     000831c2  __args_main                     
-0     000831d4  __Fapi_scaleCycleValues         
-0     000831e1  __Fapi_calculateOtpChecksum     
-0     000831ec  __register_unlock               
-0     000831f0  __register_lock                 
-0     000831f4  __nop                           
-0     000831f5  _F28x_usDelay                   
-0     000831f9  __system_pre_init               
-0     000831fb  __system_post_cinit             
-0     000831fc  ___etext__                      
-0     000831fc  etext                           
-0     00083200  ___cinit__                      
-0     00083200  cinit                           
+0     00082f29  _Init_Flash_Sectors             
+0     00082f4c  _FunctionCall                   
+0     00082f51  _FunctionCallParam              
+0     00082f58  _Error                          
+0     00082f6b  _CPU01toCPU02IPC0IntHandler     
+0     00082feb  _CPU01toCPU02IPC1IntHandler     
+0     0008304f  _c_int00                        
+0     000830a5  _GPIO_ReadPin                   
+0     000830bc  _GPIO_WritePin                  
+0     000830da  _Fapi_initializeAPI             
+0     0008310e  _Fapi_calculateFletcherChecksum 
+0     0008313c  __Fapi_divideUnsignedLong       
+0     00083168  C$$EXIT                         
+0     00083168  _abort                          
+0     0008316a  _exit                           
+0     00083191  _InitPieCtrl                    
+0     000831b0  _EnableInterrupts               
+0     000831b9  _InitPieVectTable               
+0     000831df  _Fapi_setActiveFlashBank        
+0     00083204  _copy_in                        
+0     00083232  _ExitBoot                       
+0     0008324a  _memcpy                         
+0     00083267  LL$$AND                         
+0     0008326f  LL$$OR                          
+0     00083277  LL$$XOR                         
+0     0008327f  __args_main                     
+0     00083291  __Fapi_scaleCycleValues         
+0     0008329e  __Fapi_calculateOtpChecksum     
+0     000832a9  __register_unlock               
+0     000832ad  __register_lock                 
+0     000832b1  __nop                           
+0     000832b2  _F28x_usDelay                   
+0     000832b6  __system_pre_init               
+0     000832b8  __system_post_cinit             
+0     000832b9  ___etext__                      
+0     000832b9  etext                           
+0     000832c0  ___cinit__                      
+0     000832c0  cinit                           
 0     00086000  _RamfuncsLoadStart              
 0     000860d1  _RamfuncsLoadEnd                
 0     00090000  _PieVectTableInit               
@@ -1630,19 +1634,21 @@ page  address   name
 1     0000a800  _usCPU02Buffer                  
 1     0000a900  _ErrorFlag                      
 1     0000a901  _usWWord16                      
-1     0000a902  _FnCallStatus                   
-1     0000a904  _ulWWord32                      
-1     0000a906  _g_sIpcController1              
-1     0000a914  _g_sIpcController2              
-1     0000a922  _Fapi_GlobalInit                
-1     0000a92e  _checksum                       
-1     0000a930  _statusCode                     
-1     0000a938  ___TI_enable_exit_profile_output
-1     0000a93a  ___TI_cleanup_ptr               
-1     0000a93c  ___TI_dtors_ptr                 
-1     0000a93e  _GetWordData                    
-1     0000a940  __lock                          
-1     0000a942  __unlock                        
+1     0000a902  _communication_flag             
+1     0000a904  _FnCallStatus                   
+1     0000a906  _ulWWord32                      
+1     0000a908  _global_counter                 
+1     0000a90a  _g_sIpcController1              
+1     0000a918  _g_sIpcController2              
+1     0000a926  _Fapi_GlobalInit                
+1     0000a932  _checksum                       
+1     0000a934  _statusCode                     
+1     0000a93c  _GetWordData                    
+1     0000a93e  __lock                          
+1     0000a940  ___TI_enable_exit_profile_output
+1     0000a942  ___TI_cleanup_ptr               
+1     0000a944  ___TI_dtors_ptr                 
+1     0000a946  __unlock                        
 1     0003f800  _g_asIPCCPU2toCPU1Buffers       
 1     0003f880  _g_usPutWriteIndexes            
 1     0003f884  _g_usGetReadIndexes             
@@ -1676,4 +1682,4 @@ abs   ffffffff  ___pinit__
 abs   ffffffff  binit                           
 abs   ffffffff  pinit                           
 
-[372 symbols]
+[374 symbols]

@@ -74,6 +74,26 @@ extern Uint16 RamfuncsRunStart;
 #define CPU02TOCPU01_PASSMSG  0x0003FBF4    // Used by CPU02 to pass address
                                             // of local variables to perform
                                             // actions on
+
+//
+// Defines
+//
+#define CPU01TOCPU02_PASSMSG  0x0003FFF4     // CPU01 to CPU02 MSG RAM offsets
+                                             // for passing address
+#define SETMASK_16BIT         0xFF00         // Mask for setting bits of
+                                             // 16-bit word
+#define CLEARMASK_16BIT       0xA5A5         // Mask for clearing bits of
+                                             // 16-bit word
+#define SETMASK_32BIT         0xFFFF0000     // Mask for setting bits of
+                                             // 32-bit word
+#define CLEARMASK_32BIT       0xA5A5A5A5     // Mask for clearing bits of
+                                             // 32-bit word
+#define GS0SARAM_START        0xC000         // Start of GS0 SARAM
+
+//
+
+
+
 // At least 1 volatile global tIpcController instance is required when using
 // IPC API Drivers.
 volatile tIpcController g_sIpcController1;
@@ -100,6 +120,9 @@ void FunctionCallParam(uint32_t ulParam);
 void Error (void);
 
 
+
+uint32_t global_counter;
+uint16_t communication_flag;
 uint32_t main(void)
 {
     //
@@ -108,9 +131,14 @@ uint32_t main(void)
 //    while(!ScibRegs.SCICTL2.bit.TXEMPTY)
 //    {
 //    }
+
+       uint16_t *pusCPU01BufferPt;
+       uint16_t *pusCPU02BufferPt;
     uint32_t *pulMsgRam;
     uint16_t counter;
 
+    // To send data output
+    uint32_t *pulMsgRamOut;
     //
     // Copy time critical code and Flash setup code to RAM
     // This includes InitFlash(), Flash API functions and any functions that are
@@ -178,9 +206,9 @@ uint32_t main(void)
     for(i=0;i < 5;i++)
     {
         GPIO_WritePin(RED_LED, 0);
-        DELAY_US(1000*100);
+        DELAY_US(1000*50);
         GPIO_WritePin(RED_LED, 1);
-        DELAY_US(1000*300);
+        DELAY_US(1000*50);
     }
 
 
@@ -227,6 +255,14 @@ uint32_t main(void)
     EINT;   // Enable Global interrupt INTM
     ERTM;   // Enable Global realtime interrupt DBGM
 
+    //
+    // Initialize local variables
+    //
+    pulMsgRamOut = (void *)CPU01TOCPU02_PASSMSG;
+    pusCPU01BufferPt = (void *)GS0SARAM_START;
+    pusCPU02BufferPt = (void *)(GS0SARAM_START + 256);
+//    ErrorCount = 0;
+
     ErrorFlag = 0;
     FnCallStatus = 0;
     usWWord16 = 0;
@@ -239,6 +275,8 @@ uint32_t main(void)
     // Point array to address in CPU02 TO CPU01 MSGRAM for passing
     // variable locations
     pulMsgRam = (void *)CPU02TOCPU01_PASSMSG;
+
+
 
     // Write addresses of variables where words should be written to pulMsgRam
     // array.
@@ -255,39 +293,113 @@ uint32_t main(void)
     pulMsgRam[4] = (uint32_t)&FunctionCallParam;
     pulMsgRam[5] = (uint32_t)&FnCallStatus;
 
+
+
+
+
+
+
+////    uint16_t counterR;
+//    uint16_t *pusCPU01BufferPtR;
+//    uint16_t *pusCPU02BufferPtR;
+//    uint32_t *pulMsgRamR ;
+//
+//    //
+//    // Initialize local variables
+//    //
+//    pulMsgRamR = (void *)CPU01TOCPU02_PASSMSG;
+//    pusCPU01BufferPtR = (void *)GS0SARAM_START;
+//    pusCPU02BufferPtR = (void *)(GS0SARAM_START + 256);
+//    ErrorCount = 0;
+
+
+
+
     // Flag to CPU01 that the variables are ready in MSG RAM with CPU02 TO
     // CPU01 IPC Flag 17
     IpcRegs.IPCSET.bit.IPC17 = 1;
 
+    uint16_t tempBuf[256];
+    memset(tempBuf,0,256);
+    tempBuf[5] = 3;
+    int whileCounter = 0;
     while(true)
     {
-//        for(i=0;i < 3;i++)
+
+//        for(i=0;i < tempBuf[5];i++)
 //        {
 //            GPIO_WritePin(RED_LED, 0);
-//            DELAY_US(1000*600);
+//            DELAY_US(1000*150);
 //            GPIO_WritePin(RED_LED, 1);
-//            DELAY_US(1000*100);
+//            DELAY_US(1000*300);
 //        }
-//        DELAY_US(1000*5000);
-//        for(i=0;i < IpcRegs.IPCBOOTMODE;i++)
-//        {
-//            GPIO_WritePin(RED_LED, 0);
-//            DELAY_US(1000*500);
-//            GPIO_WritePin(RED_LED, 1);
-//            DELAY_US(1000*500);
-//        }
-       DELAY_US(1000*4000);
+//        DELAY_US(1000*4000);
+
+        if (usWWord16 == 10)
+        {
+            whileCounter++;
+
+            // Request Memory Access to GS0 SARAM for CPU02
+            // Set bits to let CPU02 own GS0
+            IPCReqMemAccess(&g_sIpcController2, GS0_ACCESS, IPC_GSX_CPU2_MASTER,
+                            ENABLE_BLOCKING);
+
+            while(MemCfgRegs.GSxMSEL.bit.MSEL_GS0 != 1U)
+            {
+            }
+
+            // Write a block of data from CPU02 to GS0 shared RAM which is then written to
+            // an CPU01 address.
+            pusCPU02BufferPt[0] = whileCounter;
+            for(counter = 1; counter < 256; counter++)
+            {
+                pusCPU02BufferPt[counter] = counter + whileCounter;
+            }
+
+            IPCLtoRBlockWrite(&g_sIpcController2, pulMsgRamOut[2],
+                              (uint32_t)pusCPU02BufferPt,
+                              256, IPC_LENGTH_16_BITS,ENABLE_BLOCKING);
+
+            // Give Memory Access to GS0 SARAM to CPU02?? i think CPU1
+            IPCReqMemAccess(&g_sIpcController2, GS0_ACCESS, IPC_GSX_CPU1_MASTER,
+                            ENABLE_BLOCKING);
+        }
+
+
+        for(i=0;i < usWWord16;i++)
+        {
+            GPIO_WritePin(RED_LED, 0);
+            DELAY_US(1000*150);
+            GPIO_WritePin(RED_LED, 1);
+            DELAY_US(1000*300);
+        }
+        DELAY_US(1000*4000);
+
+
+        if (communication_flag == 1)
+        {
+            GPIO_WritePin(RED_LED, !GPIO_ReadPin(RED_LED));
+
+            //
+            // Give Memory Access to GS0 SARAM to CPU02
+            //
+//                IPCReqMemAccess(&g_sIpcController2, GS0_ACCESS, IPC_GSX_CPU1_MASTER,
+//                                ENABLE_BLOCKING);
 //
-//       GPIO_SetupPinMux(RED_LED, GPIO_MUX_CPU2, 0);
-//       GPIO_SetupPinOptions(RED_LED, GPIO_OUTPUT, GPIO_PUSHPULL);
-       int i = 0;
-       for(i=0;i < 3;i++)
-       {
-           GPIO_WritePin(RED_LED, 0);
-           DELAY_US(1000*200);
-           GPIO_WritePin(RED_LED, 1);
-           DELAY_US(1000*300);
-       }
+//                IPCLtoRBlockRead(&g_sIpcController2, pulMsgRamR[2],
+//                                 (uint32_t)pusCPU01BufferPtR,
+//                                 256, ENABLE_BLOCKING,IPC_FLAG17);
+//
+//                for(i=0;i < pusCPU01BufferPtR[2];i++)
+//                {
+//                    GPIO_WritePin(RED_LED, 0);
+//                    DELAY_US(1000*150);
+//                    GPIO_WritePin(RED_LED, 1);
+//                    DELAY_US(1000*300);
+//                }
+
+            communication_flag = 0;
+        }
 
     }
 
@@ -348,15 +460,10 @@ void Error(void)
     // An error has occurred (invalid command received). Loop forever.
     for (;;)
     {
-        int i;
-        for(i=0;i < 5;i++)
-       {
            GPIO_WritePin(RED_LED, 0);
            DELAY_US(1000*10);
            GPIO_WritePin(RED_LED, 1);
-           DELAY_US(1000*30);
-       }
-
+           DELAY_US(1000*10);
     }
 }
 
@@ -373,20 +480,23 @@ __interrupt void CPU01toCPU02IPC0IntHandler (void)
         switch (sMessage.ulcommand)
         {
             case IPC_SET_BITS:
-                 //IPCRtoLSetBits(&sMessage);
+                 IPCRtoLSetBits(&sMessage);
                  break;
             case IPC_CLEAR_BITS:
-                //IPCRtoLClearBits(&sMessage);
+                IPCRtoLClearBits(&sMessage);
                 break;
             case IPC_DATA_WRITE:
-//                IPCRtoLDataWrite(&sMessage);
+                IPCRtoLDataWrite(&sMessage);
                 break;
             case IPC_DATA_READ:
-//                IPCRtoLDataRead(&g_sIpcController1, &sMessage,
-//                                ENABLE_BLOCKING);
+
+//                GPIO_WritePin(RED_LED,!GPIO_ReadPin(RED_LED));
+
+                IPCRtoLDataRead(&g_sIpcController1, &sMessage,
+                                ENABLE_BLOCKING);
                 break;
             case IPC_FUNC_CALL:
-//                IPCRtoLFunctionCall(&sMessage);
+                IPCRtoLFunctionCall(&sMessage);
                 break;
             default:
                 ErrorFlag = 1;
@@ -398,25 +508,28 @@ __interrupt void CPU01toCPU02IPC0IntHandler (void)
     PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
 }
 
+
 // CPU01toCPU02IPC1IntHandler - Handles Data Block Reads/Writes
 __interrupt void CPU01toCPU02IPC1IntHandler (void)
 {
     tIpcMessage sMessage;
 
+    communication_flag = 1;
 //    GPIO_WritePin(RED_LED, !GPIO_ReadPin(RED_LED));
     // Continue processing messages as long as CPU01toCPU02 GetBuffer2 is full
     while(IpcGet(&g_sIpcController2, &sMessage,DISABLE_BLOCKING)!= STATUS_FAIL)
     {
+        global_counter = sMessage.uldataw2;
         switch (sMessage.ulcommand)
         {
             case IPC_BLOCK_WRITE:
                 //sMessage.uldataw2 = sMessage.uldataw2*2;
 //                GPIO_WritePin(RED_LED, !GPIO_ReadPin(RED_LED));
-                //IPCRtoLBlockWrite(&sMessage);
+                IPCRtoLBlockWrite(&sMessage);
                 break;
             case IPC_BLOCK_READ:
 //                GPIO_WritePin(RED_LED, !GPIO_ReadPin(RED_LED));
-                //IPCRtoLBlockRead(&sMessage);
+                IPCRtoLBlockRead(&sMessage);
                 break;
             default:
                 ErrorFlag = 1;
